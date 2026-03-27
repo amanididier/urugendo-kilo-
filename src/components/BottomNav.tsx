@@ -5,7 +5,7 @@ import { Home, Search, Ticket, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const tabs = [
-  { path: '/', icon: Home, label: 'Home' },
+  { path: '/home', icon: Home, label: 'Home' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/tickets', icon: Ticket, label: 'Tickets' },
   { path: '/profile', icon: User, label: 'Profile' },
@@ -15,10 +15,10 @@ export function BottomNav() {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === '/splash') return null;
+  if (pathname === '/splash' || pathname === '/' || pathname === '/splash/') return null;
 
   const isActive = (path: string) => {
-    if (path === '/') return pathname === '/';
+    if (path === '/home') return pathname === '/home' || pathname === '/';
     return pathname.startsWith(path);
   };
 
