@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { getSmartReply } from '@/lib/chat';
 import { t } from '@/lib/translations';
@@ -98,9 +98,9 @@ export function RugendoChat() {
               </div>
               <button
                 onClick={() => setChatOpen(false)}
-                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-text-muted text-lg"
+                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-text-muted hover:bg-gray-200 transition-colors"
               >
-                ×
+                <X size={18} />
               </button>
             </div>
 

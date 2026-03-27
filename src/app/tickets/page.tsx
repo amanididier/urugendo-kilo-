@@ -27,7 +27,7 @@ export default function TicketsPage() {
   return (
     <div className="bg-white pb-[100px]">
       {/* Title with green accent */}
-      <div className="bg-primary pt-[60px] px-5 pb-5 rounded-b-3xl">
+      <div className="bg-primary pt-[60px] px-5 pb-7 rounded-b-[28px]">
         <h1 className="text-[28px] font-extrabold text-white">{t('myTickets', language)}</h1>
         <p className="text-[13px] text-white/70 mt-0.5">{t('manageTickets', language)}</p>
       </div>
