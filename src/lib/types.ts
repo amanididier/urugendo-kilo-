@@ -3,6 +3,7 @@ export interface City {
   name: string;
   terminal: string;
   flag: string;
+  image: string;
 }
 
 export interface Operator {

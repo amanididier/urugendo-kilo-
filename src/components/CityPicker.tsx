@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '@/context/app-context';
 import { cities } from '@/lib/data';
 import { t } from '@/lib/translations';
+import Image from 'next/image';
 
 export function CityPicker() {
   const { cityPickerOpen, setCityPickerOpen, cityPickerField, setSearch, language } = useApp();
@@ -51,14 +52,26 @@ export function CityPicker() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.04 }}
                   onClick={() => handleSelect(city.name)}
-                  className="w-full flex items-center gap-3 py-3.5 border-b border-border last:border-0 active:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-3 py-3 border-b border-border last:border-0 active:bg-primary-light transition-colors"
                 >
-                  <span className="text-xl">{city.flag}</span>
-                  <div className="flex-1 text-left">
-                    <div className="font-semibold text-text-primary text-[15px]">{city.name}</div>
-                    <div className="text-[12px] text-text-muted">{city.terminal}</div>
+                  {/* City image */}
+                  <div className="w-[52px] h-[52px] rounded-xl overflow-hidden flex-shrink-0 relative">
+                    <Image
+                      src={city.image}
+                      alt={city.name}
+                      fill
+                      className="object-cover"
+                      sizes="52px"
+                    />
                   </div>
-                  <span className="text-[13px] font-mono text-text-muted">{city.code}</span>
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm">{city.flag}</span>
+                      <span className="font-semibold text-text-primary text-[15px]">{city.name}</span>
+                    </div>
+                    <div className="text-[12px] text-text-muted mt-0.5">{city.terminal}</div>
+                  </div>
+                  <span className="text-[13px] font-mono text-primary font-semibold">{city.code}</span>
                 </motion.button>
               ))}
             </div>

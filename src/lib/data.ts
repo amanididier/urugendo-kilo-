@@ -1,14 +1,14 @@
 import { City, Operator, Route, Trip, Booking } from './types';
 
 export const cities: City[] = [
-  { code: 'KGL', name: 'Kigali', terminal: 'Nyabugogo Terminal', flag: '🇷🇼' },
-  { code: 'MSZ', name: 'Musanze', terminal: 'Musanze Central Terminal', flag: '🌿' },
-  { code: 'HYE', name: 'Huye', terminal: 'Huye Bus Terminal', flag: '📚' },
-  { code: 'RBV', name: 'Rubavu', terminal: 'Rubavu Terminal', flag: '🏖️' },
-  { code: 'NYZ', name: 'Nyanza', terminal: 'Nyanza Terminal', flag: '👑' },
-  { code: 'RWM', name: 'Rwamagana', terminal: 'Rwamagana Terminal', flag: '🌄' },
-  { code: 'BYM', name: 'Byumba', terminal: 'Byumba Terminal', flag: '⛰️' },
-  { code: 'CYG', name: 'Cyangugu', terminal: 'Rusizi Terminal', flag: '🌊' },
+  { code: 'KGL', name: 'Kigali', terminal: 'Nyabugogo Terminal', flag: '🇷🇼', image: 'https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=400&q=80' },
+  { code: 'MSZ', name: 'Musanze', terminal: 'Musanze Central Terminal', flag: '🌿', image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400&q=80' },
+  { code: 'HYE', name: 'Huye', terminal: 'Huye Bus Terminal', flag: '📚', image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400&q=80' },
+  { code: 'RBV', name: 'Rubavu', terminal: 'Rubavu Terminal', flag: '🏖️', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80' },
+  { code: 'NYZ', name: 'Nyanza', terminal: 'Nyanza Terminal', flag: '👑', image: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=400&q=80' },
+  { code: 'RWM', name: 'Rwamagana', terminal: 'Rwamagana Terminal', flag: '🌄', image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80' },
+  { code: 'BYM', name: 'Byumba', terminal: 'Byumba Terminal', flag: '⛰️', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80' },
+  { code: 'CYG', name: 'Cyangugu', terminal: 'Rusizi Terminal', flag: '🌊', image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&q=80' },
 ];
 
 export const operators: Operator[] = [
