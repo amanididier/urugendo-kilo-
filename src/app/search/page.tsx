@@ -7,6 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { getTripsForRoute, formatPrice } from '@/lib/data';
 import { SearchFilter, Trip } from '@/lib/types';
+import { t } from '@/lib/translations';
 import { format } from 'date-fns';
 
 const filters: { key: SearchFilter; label: string }[] = [
@@ -19,22 +20,22 @@ const filters: { key: SearchFilter; label: string }[] = [
 
 export default function SearchPage() {
   const router = useRouter();
-  const { search, setSelectedTrip } = useApp();
+  const { search, setSelectedTrip, language } = useApp();
   const [activeFilter, setActiveFilter] = useState<SearchFilter>('all');
 
   if (!search.from || !search.to) {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-white px-6 pb-20">
         <div className="text-4xl mb-4">🔍</div>
-        <h2 className="text-[20px] font-bold text-text-primary mb-2">No route selected</h2>
+        <h2 className="text-[20px] font-bold text-text-primary mb-2">{t('noRoute', language)}</h2>
         <p className="text-[14px] text-text-muted text-center mb-6">
-          Go back to Home and select your departure and destination cities
+          {t('goBackHome', language)}
         </p>
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/home')}
           className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[14px]"
         >
-          Back to Home
+          {t('backToHome', language)}
         </button>
       </div>
     );
@@ -64,11 +65,11 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="bg-white pb-[100px]">
       {/* Header with green accent */}
       <div className="bg-primary pt-[60px] px-5 pb-4 rounded-b-3xl">
         <div className="flex items-center gap-3 mb-1">
-          <button onClick={() => router.push('/')} className="p-1 -ml-1">
+          <button onClick={() => router.push('/home')} className="p-1 -ml-1">
             <ChevronLeft size={24} className="text-white" />
           </button>
           <div>
@@ -103,15 +104,12 @@ export default function SearchPage() {
       {/* Count */}
       <div className="px-5 py-1">
         <p className="text-[14px] text-text-muted">
-          <span className="font-bold text-primary">{filteredTrips.length}</span> buses found today
+          <span className="font-bold text-primary">{filteredTrips.length}</span> {t('busesFound', language)}
         </p>
       </div>
 
       {/* Results */}
-      <div
-        className="flex-1 overflow-y-auto px-5 pb-[100px] space-y-3"
-        style={{ scrollbarWidth: 'none' }}
-      >
+      <div className="px-5 space-y-3">
         {filteredTrips.map((trip, i) => {
           const badge = getSeatBadge(trip.availableSeats);
           return (
@@ -170,14 +168,14 @@ export default function SearchPage() {
               {/* Price + Select */}
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[11px] text-text-muted">per seat</div>
+                  <div className="text-[11px] text-text-muted">{t('perSeat', language)}</div>
                   <div className="text-[20px] font-bold text-primary">{formatPrice(trip.price)}</div>
                 </div>
                 <button
                   onClick={() => handleSelect(trip)}
                   className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[14px] active:scale-[0.97] transition-transform"
                 >
-                  Select
+                  {t('select', language)}
                 </button>
               </div>
             </motion.div>

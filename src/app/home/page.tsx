@@ -5,12 +5,13 @@ import { motion } from 'framer-motion';
 import { Bell, ArrowRightLeft, ChevronRight, MapPin, Clock, Zap } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { popularRoutes, getTripsForRoute, formatPrice } from '@/lib/data';
+import { t } from '@/lib/translations';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
 export default function HomePage() {
   const router = useRouter();
-  const { search, setSearch, setCityPickerOpen, setCityPickerField, setSelectedTrip, setChatOpen } = useApp();
+  const { search, setSearch, setCityPickerOpen, setCityPickerField, setSelectedTrip, setChatOpen, language } = useApp();
 
   const openCityPicker = (field: 'from' | 'to') => {
     setCityPickerField(field);
@@ -78,26 +79,25 @@ export default function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <p className="text-[14px] text-white/70 mb-0.5">Muraho 👋</p>
-          <h2 className="text-[26px] font-extrabold text-white">Where to today?</h2>
+          <p className="text-[14px] text-white/70 mb-0.5">{t('greeting', language)}</p>
+          <h2 className="text-[26px] font-extrabold text-white">{t('whereTo', language)}</h2>
         </motion.div>
       </div>
 
-      {/* Search card - overlapping */}
+      {/* Search card */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
         className="mx-4 -mt-5 bg-white rounded-[20px] p-4 mb-5 relative z-10 border border-border"
       >
-        {/* FROM */}
         <button
           onClick={() => openCityPicker('from')}
           className="w-full flex items-center gap-3 py-2.5"
         >
           <div className="w-3.5 h-3.5 rounded-full bg-primary flex-shrink-0 border-2 border-primary/20" />
           <span className={`text-[15px] ${search.from ? 'text-text-primary font-semibold' : 'text-text-muted'}`}>
-            {search.from || 'From (e.g. Kigali)'}
+            {search.from || t('fromPlaceholder', language)}
           </span>
         </button>
 
@@ -110,20 +110,18 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* TO */}
         <button
           onClick={() => openCityPicker('to')}
           className="w-full flex items-center gap-3 py-2.5"
         >
           <div className="w-3.5 h-3.5 rounded-full bg-accent flex-shrink-0 border-2 border-accent/20" />
           <span className={`text-[15px] ${search.to ? 'text-text-primary font-semibold' : 'text-text-muted'}`}>
-            {search.to || 'To (e.g. Musanze)'}
+            {search.to || t('toPlaceholder', language)}
           </span>
         </button>
 
         <div className="border-t border-border" />
 
-        {/* Date + passengers */}
         <div className="flex items-center gap-3 py-2.5">
           <div className="flex-1 flex items-center gap-2 bg-surface-secondary rounded-xl px-3 py-2.5">
             <Clock size={16} className="text-primary" />
@@ -148,7 +146,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Search button */}
         <button
           onClick={handleSearch}
           disabled={!search.from || !search.to}
@@ -158,7 +155,7 @@ export default function HomePage() {
               : 'bg-primary/25 text-primary/50'
           }`}
         >
-          Search Buses
+          {t('searchBuses', language)}
         </button>
       </motion.div>
 
@@ -170,8 +167,8 @@ export default function HomePage() {
         className="flex gap-2 px-4 mb-5"
       >
         {[
-          { icon: <MapPin size={14} />, label: '8 Cities', bg: 'bg-primary-light', color: 'text-primary' },
-          { icon: <Zap size={14} />, label: '4 Operators', bg: 'bg-amber-50', color: 'text-accent' },
+          { icon: <MapPin size={14} />, label: t('cities', language), bg: 'bg-primary-light', color: 'text-primary' },
+          { icon: <Zap size={14} />, label: t('operators', language), bg: 'bg-amber-50', color: 'text-accent' },
           { icon: <Clock size={14} />, label: '24/7 AI', bg: 'bg-blue-50', color: 'text-blue-600' },
         ].map((item, i) => (
           <div key={i} className={`flex-1 flex items-center justify-center gap-1.5 ${item.bg} rounded-xl py-2.5`}>
@@ -191,9 +188,9 @@ export default function HomePage() {
         <div className="flex items-center justify-between px-5 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-1 h-5 rounded-full bg-primary" />
-            <h3 className="text-[17px] font-bold text-text-primary">Popular Routes</h3>
+            <h3 className="text-[17px] font-bold text-text-primary">{t('popularRoutes', language)}</h3>
           </div>
-          <button className="text-[13px] text-primary font-semibold">See all</button>
+          <button className="text-[13px] text-primary font-semibold">{t('seeAll', language)}</button>
         </div>
         <div
           className="flex gap-3 px-5 overflow-x-auto pb-1"
@@ -232,14 +229,14 @@ export default function HomePage() {
       >
         <div className="flex items-center gap-2 mb-3">
           <div className="w-1 h-5 rounded-full bg-primary" />
-          <h3 className="text-[17px] font-bold text-text-primary">Live Departures</h3>
+          <h3 className="text-[17px] font-bold text-text-primary">{t('liveDepartures', language)}</h3>
           <div className="flex items-center gap-1 bg-badge-green-bg px-2 py-0.5 rounded-full">
             <motion.div
               animate={{ opacity: [1, 0.2, 1] }}
               transition={{ duration: 1.4, repeat: Infinity }}
               className="w-1.5 h-1.5 rounded-full bg-badge-green-text"
             />
-            <span className="text-[11px] font-bold text-badge-green-text">Live</span>
+            <span className="text-[11px] font-bold text-badge-green-text">{t('live', language)}</span>
           </div>
         </div>
 
@@ -274,7 +271,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-right">
                   <div className="text-[16px] font-extrabold text-primary">{formatPrice(trip.price)}</div>
-                  <div className="text-[11px] text-badge-green-text font-medium">{trip.availableSeats} seats</div>
+                  <div className="text-[11px] text-badge-green-text font-medium">{trip.availableSeats} {t('seats', language)}</div>
                 </div>
               </motion.button>
             );
@@ -300,17 +297,15 @@ export default function HomePage() {
           />
         </div>
         <div className="flex-1">
-          <div className="text-[14px] font-bold text-text-primary">Rugendo says hi! 👋</div>
-          <div className="text-[12px] text-text-muted mt-0.5">Ask me about routes, prices, or booking help</div>
+          <div className="text-[14px] font-bold text-text-primary">{t('rugendoSays', language)}</div>
+          <div className="text-[12px] text-text-muted mt-0.5">{t('rugendoHelp', language)}</div>
         </div>
         <ChevronRight size={18} className="text-primary" />
       </motion.div>
 
       {/* Footer */}
       <div className="text-center pb-4">
-        <p className="text-[11px] text-text-muted">
-          Made with 💚 for Rwanda&apos;s travellers
-        </p>
+        <p className="text-[11px] text-text-muted">{t('madeWith', language)}</p>
       </div>
     </div>
   );

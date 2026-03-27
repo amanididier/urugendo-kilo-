@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { getSmartReply } from '@/lib/chat';
+import { t } from '@/lib/translations';
+import Image from 'next/image';
 
 export function RugendoChat() {
-  const { chatOpen, setChatOpen, chatMessages, addChatMessage } = useApp();
+  const { chatOpen, setChatOpen, chatMessages, addChatMessage, language } = useApp();
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -21,13 +23,13 @@ export function RugendoChat() {
   useEffect(() => {
     if (chatOpen && chatMessages.length === 0) {
       setTimeout(() => {
-        addChatMessage('Muraho! Nitwa Rugendo 🚌', 'rugendo');
+        addChatMessage(t('rugendoWelcome1', language), 'rugendo');
       }, 300);
       setTimeout(() => {
-        addChatMessage('I can help you find buses, compare prices, and book your trip in Rwanda! Where are you headed today? 😊', 'rugendo');
+        addChatMessage(t('rugendoWelcome2', language), 'rugendo');
       }, 1200);
     }
-  }, [chatOpen, chatMessages.length, addChatMessage]);
+  }, [chatOpen, chatMessages.length, addChatMessage, language]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -42,10 +44,10 @@ export function RugendoChat() {
   };
 
   const suggestions = [
-    'Kigali to Musanze 🌿',
-    'Cheapest bus today?',
-    'Next departure?',
-    'Help me book 🎫',
+    t('suggestion1', language),
+    t('suggestion2', language),
+    t('suggestion3', language),
+    t('suggestion4', language),
   ];
 
   return (
@@ -72,20 +74,26 @@ export function RugendoChat() {
               <div className="w-[36px] h-[4px] bg-gray-300 rounded-full" />
             </div>
 
-            {/* Header */}
+            {/* Header with logo instead of bus emoji */}
             <div className="flex items-center gap-3 px-5 py-3 border-b border-border">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-lg">
-                🚌
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-green-600 flex items-center justify-center p-0.5 shadow-[0_4px_12px_rgba(0,184,92,0.25)]">
+                <Image
+                  src="https://assets.kiloapps.io/user_465c60a0-3d95-4712-ac67-4db616199442/5acef383-25d7-4044-8ec7-b13e367e211c/e80493e1-eb86-4e45-bc74-de15449a3015.jpg"
+                  alt="Rugendo"
+                  width={36}
+                  height={36}
+                  className="rounded-full"
+                />
               </div>
               <div className="flex-1">
-                <div className="font-bold text-text-primary text-[15px]">Rugendo</div>
+                <div className="font-bold text-text-primary text-[15px]">{t('rugendo', language)}</div>
                 <div className="flex items-center gap-1.5">
                   <motion.div
                     animate={{ opacity: [1, 0.3, 1] }}
                     transition={{ duration: 1.4, repeat: Infinity }}
                     className="w-2 h-2 rounded-full bg-primary"
                   />
-                  <span className="text-[12px] text-primary font-medium">Online · Ready to help</span>
+                  <span className="text-[12px] text-primary font-medium">{t('online', language)}</span>
                 </div>
               </div>
               <button
@@ -97,7 +105,7 @@ export function RugendoChat() {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3" style={{ scrollbarWidth: 'none' }}>
               {chatMessages.map((msg) => (
                 <motion.div
                   key={msg.id}
@@ -160,7 +168,7 @@ export function RugendoChat() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSend()}
-                placeholder="Ask Rugendo anything..."
+                placeholder={t('askRugendo', language)}
                 className="flex-1 bg-gray-100 rounded-full px-4 py-2.5 text-[14px] text-text-primary outline-none placeholder:text-text-muted"
               />
               <button

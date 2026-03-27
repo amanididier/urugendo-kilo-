@@ -40,7 +40,7 @@ export default function SeatSelectionPage() {
   const total = selectedSeat ? selectedTrip.price + 200 : 0;
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="bg-white pb-[130px]">
       {/* Trip strip */}
       <div className="bg-primary pt-[60px] px-5 pb-4">
         <div className="flex items-center gap-3 mb-3">
@@ -75,7 +75,7 @@ export default function SeatSelectionPage() {
       </div>
 
       {/* Bus diagram */}
-      <div className="flex-1 overflow-y-auto flex justify-center py-4 pb-[120px]">
+      <div className="flex justify-center py-4">
         <div className="w-[280px]">
           {/* Driver area */}
           <div className="flex items-center justify-between mb-4 px-2">

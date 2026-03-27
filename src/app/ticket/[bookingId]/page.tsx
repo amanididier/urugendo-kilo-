@@ -36,10 +36,9 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="flex-1 overflow-y-auto pb-[100px]">
-        {/* Success banner */}
-        <div className="bg-primary pt-[70px] px-5 pb-8 text-center">
+    <div className="bg-white pb-[20px]">
+      {/* Success banner */}
+      <div className="bg-primary pt-[70px] px-5 pb-8 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -164,13 +163,12 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
             📤 Share Ticket
           </button>
           <button
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/home')}
             className="w-full h-12 rounded-full bg-white border border-border text-text-primary font-bold text-[15px] flex items-center justify-center gap-2 active:bg-gray-50 transition-colors"
           >
             🏠 Back to Home
           </button>
         </motion.div>
       </div>
-    </div>
-  );
+    );
 }

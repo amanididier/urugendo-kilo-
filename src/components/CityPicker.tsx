@@ -3,9 +3,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '@/context/app-context';
 import { cities } from '@/lib/data';
+import { t } from '@/lib/translations';
 
 export function CityPicker() {
-  const { cityPickerOpen, setCityPickerOpen, cityPickerField, setSearch } = useApp();
+  const { cityPickerOpen, setCityPickerOpen, cityPickerField, setSearch, language } = useApp();
 
   const handleSelect = (cityName: string) => {
     setSearch({ [cityPickerField]: cityName });
@@ -38,7 +39,7 @@ export function CityPicker() {
 
             <div className="px-5 py-3">
               <h2 className="text-[18px] font-bold text-text-primary">
-                {cityPickerField === 'from' ? 'Select Departure' : 'Select Destination'}
+                {cityPickerField === 'from' ? t('selectDeparture', language) : t('selectDestination', language)}
               </h2>
             </div>
 

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useApp } from '@/context/app-context';
+import { t } from '@/lib/translations';
 import Image from 'next/image';
 
 export default function SplashScreen() {
@@ -98,7 +99,7 @@ export default function SplashScreen() {
             transition={{ delay: 0.45, duration: 0.5 }}
             className="text-white/90 text-[15px] mb-10 flex items-center gap-1.5"
           >
-            <span>📍</span> Your personal secure journey app
+            <span>📍</span> {t('tagline', language)}
           </motion.p>
 
           {/* Get Started */}
@@ -109,7 +110,7 @@ export default function SplashScreen() {
             onClick={() => router.push('/home')}
             className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-5 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
           >
-            Get Started
+            {t('getStarted', language)}
           </motion.button>
 
           {/* Divider */}
@@ -120,7 +121,7 @@ export default function SplashScreen() {
             className="text-white/50 text-[13px] text-center mb-4 flex items-center gap-3"
           >
             <div className="flex-1 h-px bg-white/20" />
-            <span>or continue with</span>
+            <span>{t('orContinue', language)}</span>
             <div className="flex-1 h-px bg-white/20" />
           </motion.div>
 
@@ -152,8 +153,8 @@ export default function SplashScreen() {
             transition={{ delay: 1.3, duration: 0.3 }}
             className="text-center text-[13px]"
           >
-            <span className="text-white/50">Don&apos;t have an account? </span>
-            <span className="text-primary font-bold">Create one</span>
+            <span className="text-white/50">{t('noAccount', language)}</span>
+            <span className="text-primary font-bold">{t('createOne', language)}</span>
           </motion.p>
         </div>
       </div>

@@ -52,10 +52,9 @@ export default function PaymentPage() {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="flex-1 overflow-y-auto pb-[100px]">
-        {/* Header */}
-        <div className="pt-[60px] px-5 pb-3">
+    <div className="bg-white pb-[100px]">
+      {/* Header */}
+      <div className="pt-[60px] px-5 pb-3">
           <div className="flex items-center gap-3 mb-1">
             <button onClick={() => router.back()} className="p-1 -ml-1">
               <ChevronLeft size={24} className="text-text-primary" />
@@ -156,7 +155,6 @@ export default function PaymentPage() {
         <div className="text-center text-[12px] text-text-muted mb-4">
           🔐 256-bit encrypted · Safe & secure
         </div>
-      </div>
 
       {/* Pay button */}
       <div className="absolute bottom-[72px] left-0 right-0 bg-white border-t border-border px-5 py-3 z-30">
