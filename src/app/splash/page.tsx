@@ -18,16 +18,16 @@ export default function SplashScreen() {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Background image with Ken Burns — road through Rwandan hills with bus */}
+      {/* Background image — road through green hills, bus perspective */}
       <motion.div
         initial={{ scale: 1 }}
-        animate={{ scale: 1.08 }}
-        transition={{ duration: 5, ease: 'easeInOut' }}
+        animate={{ scale: 1.06 }}
+        transition={{ duration: 6, ease: 'easeInOut' }}
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1570275239925-4af0aa93a4af?w=800&q=80)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=85)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center 40%',
         }}
       />
       {/* Dark overlay */}

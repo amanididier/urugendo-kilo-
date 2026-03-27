@@ -72,8 +72,8 @@ export default function SearchPage() {
           <button onClick={() => router.push('/home')} className="p-1 -ml-1">
             <ChevronLeft size={24} className="text-white" />
           </button>
-          <div>
-            <h1 className="text-[20px] font-bold text-white">{search.from} → {search.to}</h1>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-[18px] font-bold text-white truncate">{search.from} → {search.to}</h1>
             <p className="text-[13px] text-white/70">
               {format(new Date(search.date), 'MMM dd')} · {search.passengers} passenger{search.passengers > 1 ? 's' : ''}
             </p>
@@ -118,7 +118,7 @@ export default function SearchPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
-              className="bg-white rounded-2xl border border-border p-4"
+              className="bg-white rounded-2xl border border-border p-4 overflow-hidden"
             >
               {/* Operator row */}
               <div className="flex items-center gap-3 mb-3">
@@ -137,22 +137,21 @@ export default function SearchPage() {
               </div>
 
               {/* Time row */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex-1">
-                  <div className="text-[38px] font-black text-text-primary leading-none">{trip.departureTime}</div>
-                  <div className="text-[12px] text-text-muted mt-1">{trip.terminalFrom}</div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex-1 min-w-0">
+                  <div className="text-[32px] font-black text-text-primary leading-none">{trip.departureTime}</div>
+                  <div className="text-[11px] text-text-muted mt-1 truncate">{trip.terminalFrom}</div>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-[13px] text-primary font-medium">{trip.duration}</span>
-                  <div className="w-16 h-[2px] bg-primary/20 relative rounded-full">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary" />
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary" />
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[5px] border-b-primary" />
+                <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                  <span className="text-[12px] text-primary font-medium">{trip.duration}</span>
+                  <div className="w-14 h-[2px] bg-primary/20 relative rounded-full">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary" />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary" />
                   </div>
                 </div>
-                <div className="flex-1 text-right">
-                  <div className="text-[38px] font-black text-text-primary leading-none">{trip.arrivalTime}</div>
-                  <div className="text-[12px] text-text-muted mt-1">{trip.terminalTo}</div>
+                <div className="flex-1 min-w-0 text-right">
+                  <div className="text-[32px] font-black text-text-primary leading-none">{trip.arrivalTime}</div>
+                  <div className="text-[11px] text-text-muted mt-1 truncate">{trip.terminalTo}</div>
                 </div>
               </div>
 

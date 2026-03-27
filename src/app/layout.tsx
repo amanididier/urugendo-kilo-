@@ -28,12 +28,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plusJakarta.variable} antialiased`}>
         <AppProvider>
-          <PhoneFrame>
+          <PhoneFrame
+            nav={<BottomNav />}
+            fab={<RugendoFAB />}
+            chat={<RugendoChat />}
+            picker={<CityPicker />}
+          >
             {children}
-            <RugendoFAB />
-            <BottomNav />
-            <RugendoChat />
-            <CityPicker />
           </PhoneFrame>
         </AppProvider>
       </body>

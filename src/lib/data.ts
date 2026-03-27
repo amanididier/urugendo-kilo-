@@ -58,7 +58,7 @@ export function generateTrips(from: string, to: string, date: string): Trip[] {
     duration: def.duration,
     price: def.price,
     totalSeats: 36,
-    availableSeats: Math.floor(Math.random() * 20) + 5,
+    availableSeats: ((fromCity.code.charCodeAt(0) + toCity.code.charCodeAt(0) + i * 7) % 20) + 5,
     amenities: def.amenities,
     date,
     terminalFrom: fromCity.terminal,
