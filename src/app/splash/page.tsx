@@ -17,14 +17,14 @@ export default function SplashScreen() {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Background image with Ken Burns */}
+      {/* Background image with Ken Burns — road through Rwandan hills with bus */}
       <motion.div
         initial={{ scale: 1 }}
         animate={{ scale: 1.08 }}
         transition={{ duration: 5, ease: 'easeInOut' }}
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1570275239925-4af0aa93a4af?w=800&q=80)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
