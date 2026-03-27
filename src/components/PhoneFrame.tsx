@@ -10,8 +10,11 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
       >
         {/* Dynamic Island */}
         <div className="absolute top-[14px] left-1/2 -translate-x-1/2 w-[118px] h-[33px] bg-black rounded-[18px] z-[500]" />
-        {/* Content */}
-        <div className="w-full h-full overflow-y-auto overflow-x-hidden">
+        {/* Content - no scrollbar visible */}
+        <div
+          className="w-full h-full overflow-hidden"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {children}
         </div>
       </div>

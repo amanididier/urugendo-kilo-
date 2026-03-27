@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useApp } from '@/context/app-context';
+import Image from 'next/image';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -29,7 +30,13 @@ export default function SplashScreen() {
         }}
       />
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/38" />
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* Green gradient at bottom */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[55%]"
+        style={{ background: 'linear-gradient(to top, rgba(0,184,92,0.5) 0%, rgba(0,0,0,0) 100%)' }}
+      />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col h-full px-6 pt-[70px] pb-8">
@@ -37,16 +44,16 @@ export default function SplashScreen() {
         <div className="self-end flex items-center bg-white/90 rounded-full p-1 mb-auto">
           <button
             onClick={() => setLanguage('EN')}
-            className={`px-3 py-1 rounded-full text-[13px] font-semibold transition-all ${
-              language === 'EN' ? 'bg-white text-text-primary shadow-sm' : 'text-text-muted'
+            className={`px-3.5 py-1 rounded-full text-[13px] font-semibold transition-all ${
+              language === 'EN' ? 'bg-primary text-white' : 'text-text-muted'
             }`}
           >
             EN
           </button>
           <button
             onClick={() => setLanguage('RW')}
-            className={`px-3 py-1 rounded-full text-[13px] font-semibold transition-all ${
-              language === 'RW' ? 'bg-white text-text-primary shadow-sm' : 'text-text-muted'
+            className={`px-3.5 py-1 rounded-full text-[13px] font-semibold transition-all ${
+              language === 'RW' ? 'bg-primary text-white' : 'text-text-muted'
             }`}
           >
             RW
@@ -55,13 +62,21 @@ export default function SplashScreen() {
 
         {/* App branding */}
         <div className="mt-auto">
-          {/* App icon */}
+          {/* App icon - using the actual logo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="w-[72px] h-[72px] rounded-[18px] bg-primary mb-5"
-          />
+            className="mb-5"
+          >
+            <Image
+              src="https://assets.kiloapps.io/user_465c60a0-3d95-4712-ac67-4db616199442/5acef383-25d7-4044-8ec7-b13e367e211c/e80493e1-eb86-4e45-bc74-de15449a3015.jpg"
+              alt="Urugendo Logo"
+              width={72}
+              height={72}
+              className="rounded-[18px]"
+            />
+          </motion.div>
 
           {/* App name */}
           <motion.h1
@@ -79,7 +94,7 @@ export default function SplashScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-white/80 text-[15px] mb-8 flex items-center gap-1.5"
+            className="text-white/90 text-[15px] mb-8 flex items-center gap-1.5"
           >
             <span>📍</span> Your personal secure journey app
           </motion.p>
@@ -119,7 +134,7 @@ export default function SplashScreen() {
             ].map((btn) => (
               <button
                 key={btn.label}
-                className="w-[52px] h-[52px] rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-white text-[18px] font-semibold active:scale-95 transition-transform"
+                className="w-[52px] h-[52px] rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-[18px] font-semibold active:scale-95 transition-transform border border-white/20"
               >
                 {btn.label}
               </button>
@@ -134,7 +149,7 @@ export default function SplashScreen() {
             className="text-center text-[13px]"
           >
             <span className="text-white/60">Don&apos;t have an account? </span>
-            <span className="text-primary font-bold">Create one</span>
+            <span className="text-white font-bold underline">Create one</span>
           </motion.p>
         </div>
       </div>

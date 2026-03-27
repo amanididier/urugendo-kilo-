@@ -19,18 +19,22 @@ export default function TicketsPage() {
 
   return (
     <div className="flex flex-col h-full bg-white">
-      <div className="flex-1 overflow-y-auto pb-[100px]">
-        {/* Title */}
-        <div className="pt-[60px] px-5 pb-4">
-          <h1 className="text-[28px] font-extrabold text-text-primary">My Tickets</h1>
+      <div
+        className="flex-1 overflow-y-auto pb-[100px]"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        {/* Title with green accent */}
+        <div className="bg-primary pt-[60px] px-5 pb-5 rounded-b-3xl">
+          <h1 className="text-[28px] font-extrabold text-white">My Tickets</h1>
+          <p className="text-[13px] text-white/70 mt-0.5">Manage your bus tickets</p>
         </div>
 
         {/* Tab bar */}
-        <div className="px-5 mb-4">
-          <div className="relative flex bg-gray-100 rounded-xl p-1">
+        <div className="px-5 -mt-4 mb-4 relative z-10">
+          <div className="relative flex bg-white rounded-xl p-1 border border-border">
             <motion.div
               layoutId="ticket-tab"
-              className="absolute top-1 bottom-1 bg-white rounded-lg shadow-sm"
+              className="absolute top-1 bottom-1 bg-primary rounded-lg"
               style={{
                 width: `${100 / 3}%`,
                 left: `${(tabs.indexOf(activeTab) * 100) / 3}%`,
@@ -42,7 +46,7 @@ export default function TicketsPage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-2 text-[13px] font-semibold relative z-10 transition-colors ${
-                  activeTab === tab ? 'text-text-primary' : 'text-text-muted'
+                  activeTab === tab ? 'text-white' : 'text-text-muted'
                 }`}
               >
                 {tab}
@@ -79,13 +83,13 @@ export default function TicketsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ delay: i * 0.06 }}
-                  className="bg-white rounded-xl border border-border p-4"
+                  className="bg-white rounded-xl border border-border p-4 hover:border-primary/30 transition-colors"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div className="text-[18px] font-bold text-text-primary">
                       {booking.trip.from} → {booking.trip.to}
                     </div>
-                    <span className="text-[13px] font-semibold text-primary">
+                    <span className="text-[13px] font-semibold text-primary bg-primary-light px-2 py-0.5 rounded-full">
                       {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                     </span>
                   </div>

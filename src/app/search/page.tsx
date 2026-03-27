@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ChevronLeft, Wifi, Snowflake, Flame, Luggage } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { getTripsForRoute, formatPrice } from '@/lib/data';
 import { SearchFilter, Trip } from '@/lib/types';
@@ -65,15 +65,15 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col h-full bg-white">
-      {/* Header */}
-      <div className="pt-[60px] px-5 pb-2">
-        <div className="flex items-center gap-3 mb-2">
+      {/* Header with green accent */}
+      <div className="bg-primary pt-[60px] px-5 pb-4 rounded-b-3xl">
+        <div className="flex items-center gap-3 mb-1">
           <button onClick={() => router.push('/')} className="p-1 -ml-1">
-            <ChevronLeft size={24} className="text-text-primary" />
+            <ChevronLeft size={24} className="text-white" />
           </button>
           <div>
-            <h1 className="text-[20px] font-bold text-text-primary">{search.from} → {search.to}</h1>
-            <p className="text-[13px] text-text-muted">
+            <h1 className="text-[20px] font-bold text-white">{search.from} → {search.to}</h1>
+            <p className="text-[13px] text-white/70">
               {format(new Date(search.date), 'MMM dd')} · {search.passengers} passenger{search.passengers > 1 ? 's' : ''}
             </p>
           </div>
@@ -81,7 +81,10 @@ export default function SearchPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 px-5 py-2 overflow-x-auto">
+      <div
+        className="flex gap-2 px-5 py-3 overflow-x-auto"
+        style={{ scrollbarWidth: 'none' }}
+      >
         {filters.map(f => (
           <button
             key={f.key}
@@ -89,7 +92,7 @@ export default function SearchPage() {
             className={`px-4 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all ${
               activeFilter === f.key
                 ? 'bg-primary text-white'
-                : 'bg-white border border-border text-text-secondary'
+                : 'bg-white border border-border text-text-secondary hover:border-primary/30'
             }`}
           >
             {f.label}
@@ -98,14 +101,17 @@ export default function SearchPage() {
       </div>
 
       {/* Count */}
-      <div className="px-5 py-2">
+      <div className="px-5 py-1">
         <p className="text-[14px] text-text-muted">
-          <span className="font-bold text-text-primary">{filteredTrips.length}</span> buses found today
+          <span className="font-bold text-primary">{filteredTrips.length}</span> buses found today
         </p>
       </div>
 
       {/* Results */}
-      <div className="flex-1 overflow-y-auto px-5 pb-[100px] space-y-3">
+      <div
+        className="flex-1 overflow-y-auto px-5 pb-[100px] space-y-3"
+        style={{ scrollbarWidth: 'none' }}
+      >
         {filteredTrips.map((trip, i) => {
           const badge = getSeatBadge(trip.availableSeats);
           return (
@@ -139,10 +145,11 @@ export default function SearchPage() {
                   <div className="text-[12px] text-text-muted mt-1">{trip.terminalFrom}</div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                  <span className="text-[13px] text-text-muted">{trip.duration}</span>
-                  <div className="w-16 h-px bg-border relative">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-border" />
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-border" />
+                  <span className="text-[13px] text-primary font-medium">{trip.duration}</span>
+                  <div className="w-16 h-[2px] bg-primary/20 relative rounded-full">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary" />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary" />
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[5px] border-b-primary" />
                   </div>
                 </div>
                 <div className="flex-1 text-right">
@@ -154,7 +161,7 @@ export default function SearchPage() {
               {/* Amenities */}
               <div className="flex gap-2 mb-3">
                 {trip.amenities.map((a, j) => (
-                  <div key={j} className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-[14px]">
+                  <div key={j} className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center text-[14px]">
                     {a}
                   </div>
                 ))}
