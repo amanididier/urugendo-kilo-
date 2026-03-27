@@ -18,16 +18,16 @@ export default function SplashScreen() {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Background image — road through green hills, bus perspective */}
+      {/* Background image — bus station / terminal */}
       <motion.div
         initial={{ scale: 1 }}
         animate={{ scale: 1.06 }}
         transition={{ duration: 6, ease: 'easeInOut' }}
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=85)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=900&q=85)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center 40%',
+          backgroundPosition: 'center',
         }}
       />
       {/* Dark overlay */}
