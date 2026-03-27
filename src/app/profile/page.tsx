@@ -6,17 +6,29 @@ import { useApp } from '@/context/app-context';
 import { t } from '@/lib/translations';
 
 export default function ProfilePage() {
-  const { bookings, language } = useApp();
+  const { bookings, language, setLanguage, setChatOpen } = useApp();
 
   const upcomingCount = bookings.filter(b => b.status === 'upcoming').length;
   const totalTrips = bookings.filter(b => b.status === 'past').length + upcomingCount;
+
+  const handleLanguageToggle = () => {
+    setLanguage(language === 'EN' ? 'RW' : 'EN');
+  };
+
+  const handleMenuClick = (label: string) => {
+    if (label === t('language', language)) {
+      handleLanguageToggle();
+    } else if (label === t('helpSupport', language)) {
+      setChatOpen(true);
+    }
+  };
 
   const menuItems = [
     { icon: Users, label: t('savedPassengers', language), bg: 'bg-purple-100', color: 'text-purple-600' },
     { icon: CreditCard, label: t('paymentMethods', language), bg: 'bg-yellow-100', color: 'text-yellow-600' },
     { icon: Bell, label: t('notifications', language), bg: 'bg-orange-100', color: 'text-orange-500' },
-    { icon: Globe, label: t('language', language), bg: 'bg-teal-100', color: 'text-teal-600', value: language === 'EN' ? 'EN / RW' : 'RW / EN' },
-    { icon: HelpCircle, label: t('helpSupport', language), bg: 'bg-pink-100', color: 'text-pink-600' },
+    { icon: Globe, label: t('language', language), bg: 'bg-teal-100', color: 'text-teal-600', value: language === 'EN' ? 'EN / RW' : 'RW / EN', action: handleLanguageToggle },
+    { icon: HelpCircle, label: t('helpSupport', language), bg: 'bg-pink-100', color: 'text-pink-600', action: () => setChatOpen(true) },
   ];
 
   return (
@@ -71,7 +83,8 @@ export default function ProfilePage() {
           return (
             <motion.button
               key={item.label}
-              whileTap={{ x: 4 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleMenuClick(item.label)}
               className={`w-full flex items-center gap-3 px-4 py-3.5 active:bg-primary-light transition-colors text-left ${
                 i < menuItems.length - 1 ? 'border-b border-border' : ''
               }`}
@@ -81,7 +94,7 @@ export default function ProfilePage() {
               </div>
               <span className="flex-1 text-[15px] font-medium text-text-primary">{item.label}</span>
               {item.value && (
-                <span className="text-[13px] text-primary font-medium mr-1">{item.value}</span>
+                <span className="text-[13px] text-primary font-bold mr-1">{item.value}</span>
               )}
               <ChevronRight size={18} className="text-text-muted" />
             </motion.button>

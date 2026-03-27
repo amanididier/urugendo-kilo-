@@ -92,7 +92,18 @@ type TranslationKey =
   | 'createOne'
   // City Picker
   | 'selectDeparture'
-  | 'selectDestination';
+  | 'selectDestination'
+  // Seats extra
+  | 'noTrip'
+  | 'driver'
+  | 'searchBuses2'
+  // Payment extra
+  | 'noBooking'
+  | 'mtnMomo'
+  | 'airtelMoney'
+  | 'bankCard'
+  | 'processing'
+  | 'totalLabel';
 
 const translations: Record<TranslationKey, { EN: string; RW: string }> = {
   // Home
@@ -199,6 +210,19 @@ const translations: Record<TranslationKey, { EN: string; RW: string }> = {
   // City Picker
   selectDeparture: { EN: 'Select Departure', RW: 'Hitamo Aho Uva' },
   selectDestination: { EN: 'Select Destination', RW: 'Hitamo Aho Ujya' },
+
+  // Seats extra
+  noTrip: { EN: 'No trip selected', RW: 'Nta rugendo wahisemo' },
+  driver: { EN: 'Driver', RW: 'Umushoferi' },
+  searchBuses2: { EN: 'Search Buses', RW: 'Shakisha Bisi' },
+
+  // Payment extra
+  noBooking: { EN: 'No booking in progress', RW: 'Nta gutumiza gukomeje' },
+  mtnMomo: { EN: 'MTN Mobile Money', RW: 'MTN Mobile Money' },
+  airtelMoney: { EN: 'Airtel Money', RW: 'Airtel Money' },
+  bankCard: { EN: 'Bank Card', RW: 'Ikarita ya Banki' },
+  processing: { EN: '⏳ Processing...', RW: '⏳ Birakora...' },
+  totalLabel: { EN: 'Total', RW: 'Igiteranyo' },
 };
 
 export function t(key: TranslationKey, lang: Language): string {

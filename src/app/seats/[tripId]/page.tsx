@@ -5,22 +5,23 @@ import { motion } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { formatPrice } from '@/lib/data';
+import { t } from '@/lib/translations';
 
 const ROWS = 9;
 const COLS = ['A', 'B', 'C', 'D'];
 
 export default function SeatSelectionPage() {
   const router = useRouter();
-  const { selectedTrip, selectedSeat, setSelectedSeat } = useApp();
+  const { selectedTrip, selectedSeat, setSelectedSeat, language } = useApp();
 
   if (!selectedTrip) {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-white px-6 pb-20">
         <div className="text-4xl mb-4">💺</div>
-        <h2 className="text-[20px] font-bold text-text-primary mb-2">No trip selected</h2>
-        <p className="text-[14px] text-text-muted text-center mb-6">Search for buses and select a trip first</p>
+        <h2 className="text-[20px] font-bold text-text-primary mb-2">{t('noTrip', language)}</h2>
+        <p className="text-[14px] text-text-muted text-center mb-6">{t('goBackHome', language)}</p>
         <button onClick={() => router.push('/search')} className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[14px]">
-          Search Buses
+          {t('searchBuses2', language)}
         </button>
       </div>
     );
@@ -53,7 +54,7 @@ export default function SeatSelectionPage() {
           </div>
           <div className="text-right">
             <div className="text-[16px] font-bold text-white">{formatPrice(selectedTrip.price)}</div>
-            <div className="text-[12px] text-white/70">per seat</div>
+            <div className="text-[12px] text-white/70">{t('perSeat', language)}</div>
           </div>
         </div>
       </div>
@@ -62,15 +63,15 @@ export default function SeatSelectionPage() {
       <div className="flex items-center justify-center gap-6 py-3 border-b border-border">
         <div className="flex items-center gap-1.5">
           <div className="w-4 h-4 rounded bg-badge-green-bg border border-green-300" />
-          <span className="text-[12px] text-text-muted">Available</span>
+          <span className="text-[12px] text-text-muted">{t('available', language)}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-4 h-4 rounded bg-badge-red-bg border border-red-300" />
-          <span className="text-[12px] text-text-muted">Taken</span>
+          <span className="text-[12px] text-text-muted">{t('taken', language)}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-4 h-4 rounded bg-primary" />
-          <span className="text-[12px] text-text-muted">Your pick</span>
+          <span className="text-[12px] text-text-muted">{t('yourPick', language)}</span>
         </div>
       </div>
 
@@ -79,7 +80,7 @@ export default function SeatSelectionPage() {
         <div className="w-[280px]">
           {/* Driver area */}
           <div className="flex items-center justify-between mb-4 px-2">
-            <div className="text-[12px] text-text-muted font-medium">Driver</div>
+            <div className="text-[12px] text-text-muted font-medium">{t('driver', language)}</div>
             <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-[16px]">🚌</div>
           </div>
 
@@ -156,11 +157,11 @@ export default function SeatSelectionPage() {
       <div className="absolute bottom-[72px] left-0 right-0 bg-white border-t border-border px-5 py-3 z-30">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <div className="text-[12px] text-text-muted">Seat</div>
+            <div className="text-[12px] text-text-muted">{t('seat', language)}</div>
             <div className="text-[15px] font-bold text-text-primary">{selectedSeat || '—'}</div>
           </div>
           <div className="text-right">
-            <div className="text-[12px] text-text-muted">Total</div>
+            <div className="text-[12px] text-text-muted">{t('total', language)}</div>
             <div className="text-[20px] font-bold text-primary">
               {selectedSeat ? formatPrice(total) : '—'}
             </div>
@@ -173,7 +174,7 @@ export default function SeatSelectionPage() {
             selectedSeat ? 'bg-primary' : 'bg-primary/30 cursor-not-allowed'
           }`}
         >
-          Pay →
+          {t('pay', language)} →
         </button>
       </div>
     </div>

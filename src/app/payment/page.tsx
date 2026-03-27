@@ -6,19 +6,20 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, Check } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { formatPrice } from '@/lib/data';
+import { t } from '@/lib/translations';
 
 export default function PaymentPage() {
   const router = useRouter();
-  const { selectedTrip, selectedSeat, paymentMethod, setPaymentMethod, addBooking } = useApp();
+  const { selectedTrip, selectedSeat, paymentMethod, setPaymentMethod, addBooking, language } = useApp();
   const [processing, setProcessing] = useState(false);
 
   if (!selectedTrip || !selectedSeat) {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-white px-6 pb-20">
         <div className="text-4xl mb-4">💳</div>
-        <h2 className="text-[20px] font-bold text-text-primary mb-2">No booking in progress</h2>
-        <button onClick={() => router.push('/')} className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[14px]">
-          Back to Home
+        <h2 className="text-[20px] font-bold text-text-primary mb-2">{t('noBooking', language)}</h2>
+        <button onClick={() => router.push('/home')} className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[14px]">
+          {t('backToHome', language)}
         </button>
       </div>
     );
@@ -45,12 +46,6 @@ export default function PaymentPage() {
     }, 1600);
   };
 
-  const paymentMethods = [
-    { id: 'mtn' as const, name: 'MTN Mobile Money', emoji: '📱', badge: 'Recommended', disabled: false },
-    { id: 'airtel' as const, name: 'Airtel Money', emoji: '🔴', badge: null, disabled: false },
-    { id: 'card' as const, name: 'Bank Card', emoji: '💳', badge: 'Coming soon', disabled: true },
-  ];
-
   return (
     <div className="bg-white pb-[100px]">
       {/* Header */}
@@ -59,9 +54,9 @@ export default function PaymentPage() {
             <button onClick={() => router.back()} className="p-1 -ml-1">
               <ChevronLeft size={24} className="text-text-primary" />
             </button>
-            <h1 className="text-[20px] font-bold text-text-primary">Payment</h1>
+            <h1 className="text-[20px] font-bold text-text-primary">{t('payment', language)}</h1>
           </div>
-          <p className="text-[13px] text-text-muted ml-8">Almost there! 🎉</p>
+          <p className="text-[13px] text-text-muted ml-8">{t('almostThere', language)}</p>
         </div>
 
         {/* Order summary */}
@@ -72,37 +67,37 @@ export default function PaymentPage() {
         >
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Route</span>
+              <span className="text-[14px] text-text-muted">{t('route', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{selectedTrip.from} → {selectedTrip.to}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Date & Time</span>
+              <span className="text-[14px] text-text-muted">{t('dateTime', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{selectedTrip.date} · {selectedTrip.departureTime}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Operator</span>
+              <span className="text-[14px] text-text-muted">{t('operator', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{selectedTrip.operator.emoji} {selectedTrip.operator.name}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Seat</span>
+              <span className="text-[14px] text-text-muted">{t('seat', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{selectedSeat}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Base Fare</span>
+              <span className="text-[14px] text-text-muted">{t('baseFare', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{formatPrice(selectedTrip.price)}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] text-text-muted">Booking Fee</span>
+              <span className="text-[14px] text-text-muted">{t('bookingFee', language)}</span>
               <span className="text-[14px] font-semibold text-text-primary">{formatPrice(bookingFee)}</span>
             </div>
             <div className="border-t border-border" />
             <div className="flex justify-between">
-              <span className="text-[14px] font-bold text-text-primary">Total</span>
+              <span className="text-[14px] font-bold text-text-primary">{t('totalLabel', language)}</span>
               <span className="text-[20px] font-bold text-primary">{formatPrice(total)}</span>
             </div>
           </div>
@@ -115,9 +110,13 @@ export default function PaymentPage() {
           transition={{ delay: 0.1 }}
           className="mx-5 bg-white rounded-2xl border border-border p-4 mb-4"
         >
-          <h3 className="text-[15px] font-bold text-text-primary mb-3">Payment Method</h3>
+          <h3 className="text-[15px] font-bold text-text-primary mb-3">{t('paymentMethod', language)}</h3>
           <div className="space-y-2">
-            {paymentMethods.map(method => (
+            {[
+              { id: 'mtn' as const, name: t('mtnMomo', language), emoji: '📱', badge: t('recommended', language), disabled: false },
+              { id: 'airtel' as const, name: t('airtelMoney', language), emoji: '🔴', badge: null, disabled: false },
+              { id: 'card' as const, name: t('bankCard', language), emoji: '💳', badge: t('comingSoon', language), disabled: true },
+            ].map(method => (
               <button
                 key={method.id}
                 disabled={method.disabled}
@@ -153,7 +152,7 @@ export default function PaymentPage() {
 
         {/* Security note */}
         <div className="text-center text-[12px] text-text-muted mb-4">
-          🔐 256-bit encrypted · Safe & secure
+          🔐 {t('security', language)}
         </div>
 
       {/* Pay button */}
@@ -168,7 +167,7 @@ export default function PaymentPage() {
               animate={{ opacity: [1, 0.5, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
             >
-              ⏳ Processing...
+              {t('processing', language)}
             </motion.span>
           ) : (
             <>🔒 Pay {formatPrice(total)}</>
