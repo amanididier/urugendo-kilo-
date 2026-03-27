@@ -1,87 +1,71 @@
-# Active Context: Next.js Starter Template
+# Active Context: Urugendo
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Status**: ✅ v0 Build Complete — All screens implemented and passing typecheck/lint/build
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+The Urugendo bus ticket aggregator app has been fully built from the Next.js starter template.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] Installed dependencies: framer-motion, lucide-react, vaul, date-fns
+- [x] Design system: globals.css with Tailwind CSS 4 @theme tokens (green/amber/neutral palette)
+- [x] PhoneFrame component: iPhone 15 Pro frame (390×844px, Dynamic Island, 9px bezel)
+- [x] BottomNav: 4-tab navigation with Framer Motion layoutId pill animation
+- [x] Splash screen: Rwanda landscape photo, Ken Burns effect, language toggle, social buttons
+- [x] Home screen: Search card (FROM/TO/dates/passengers), popular routes, live departures
+- [x] Search Results: Filter chips (All/Earliest/Cheapest/AC/WiFi), bus cards with times/amenities/prices
+- [x] Seat Selection: Visual bus diagram (9 rows × 4 seats), seat status, CTA bar
+- [x] Payment: Order summary, MTN/Airtel/Card methods, processing animation
+- [x] Booking Confirmed: QR e-ticket with booking details, download/share buttons
+- [x] My Tickets: Tab bar (Upcoming/Past/Cancelled) with animated pill, ticket cards
+- [x] Profile: Avatar, stats row (3 columns), continuous menu card, logout
+- [x] Rugendo AI Chat: Bottom sheet with smart replies, typing indicator, suggestion chips
+- [x] City Picker: Bottom sheet with 8 Rwanda cities, flag/terminal/code display
+- [x] App Context: Global state for search, bookings, chat, language, payment
+- [x] Data layer: 8 cities, 4 operators, 6 popular routes, mock trip generation
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/app/layout.tsx` | Root layout with PhoneFrame wrapper | ✅ |
+| `src/app/page.tsx` | Home screen | ✅ |
+| `src/app/splash/page.tsx` | Splash/Onboarding | ✅ |
+| `src/app/search/page.tsx` | Search results | ✅ |
+| `src/app/seats/[tripId]/page.tsx` | Seat selection | ✅ |
+| `src/app/payment/page.tsx` | Payment | ✅ |
+| `src/app/ticket/[bookingId]/page.tsx` | E-ticket confirmation | ✅ |
+| `src/app/tickets/page.tsx` | My Tickets | ✅ |
+| `src/app/profile/page.tsx` | Profile | ✅ |
+| `src/components/PhoneFrame.tsx` | iPhone 15 Pro frame | ✅ |
+| `src/components/BottomNav.tsx` | Bottom navigation | ✅ |
+| `src/components/RugendoFAB.tsx` | AI chat FAB button | ✅ |
+| `src/components/RugendoChat.tsx` | AI chat drawer | ✅ |
+| `src/components/CityPicker.tsx` | City selection drawer | ✅ |
+| `src/context/app-context.tsx` | Global state provider | ✅ |
+| `src/lib/types.ts` | TypeScript interfaces | ✅ |
+| `src/lib/data.ts` | Mock data & generators | ✅ |
+| `src/lib/chat.ts` | AI smart replies | ✅ |
 
-## Current Focus
+## Build Verification
 
-The template is ready. Next steps depend on user requirements:
-
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
-
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+- `bun typecheck` ✅ passes
+- `bun lint` ✅ passes  
+- `bun run build` ✅ compiles successfully, all 9 routes generated
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
-| Initial | Template created with base setup |
+| 2026-03-27 | Full Urugendo v0 build: all 8 screens, PhoneFrame, AI chat, city picker, data layer |
+
+## Pending Improvements
+
+- [ ] Real backend integration (API routes for trips, bookings, payments)
+- [ ] Actual QR code generation (currently placeholder pattern)
+- [ ] MTN MoMo / Airtel Money payment gateway integration
+- [ ] Push notifications for booking updates
+- [ ] Offline ticket access
+- [ ] Kinyarwanda language translations (EN/RW toggle exists but no translations)
+- [ ] Dark mode support (infrastructure exists via next-themes)

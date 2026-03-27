@@ -1,44 +1,38 @@
-# Product Context: Next.js Starter Template
+# Product Context: Urugendo
 
-## Why This Template Exists
+## Why This Exists
 
-Starting a new Next.js project involves boilerplate setup, configuration decisions, and establishing patterns. This template provides a clean, opinionated starting point that eliminates setup friction and establishes best practices from the start. It's optimized for AI-assisted development, where an AI can quickly extend the template based on user requirements.
+Rwanda has no cross-operator bus booking platform. Each bus company operates in isolation, forcing passengers to physically queue at Nyabugogo terminal. Urugendo aggregates all operators into one app.
 
-## Problems It Solves
+## User Flow
 
-1. **Setup Time**: Eliminates boilerplate configuration (TypeScript, Tailwind, ESLint)
-2. **Decision Fatigue**: Pre-made choices for tooling and patterns
-3. **AI Context**: Memory bank provides persistent context for AI assistants
-4. **Extensibility**: Recipe system for adding common features
-5. **Consistency**: Standardized project structure and conventions
+1. User opens app → sees splash with Rwanda landscape
+2. Taps "Get Started" → arrives at Home
+3. Selects FROM/TO cities via City Picker sheet
+4. Taps "Search Buses" → sees filtered results with times, prices, amenities
+5. Taps "Select" → views bus seat map, picks a seat
+6. Taps "Pay" → reviews order, selects MTN MoMo/Airtel
+7. Confirms payment → receives QR e-ticket
+8. Can view all tickets in "My Tickets" tab
 
-## How It Should Work (User Flow)
+## UX Goals
 
-1. User starts with this template
-2. User describes what they want to build to AI assistant
-3. AI adds pages, components, and features as needed
-4. AI uses recipes for common additions (database, auth)
-5. User previews changes via hot reload
-6. Iterate until satisfied
-7. Deploy
+- Mobile-first: entire app fits in 390×844 iPhone frame
+- Fast booking: < 60 seconds from search to confirmation
+- Visual seat selection: interactive bus diagram
+- AI assistant: "Rugendo" helps with routes, prices, booking
+- Premium feel: clean white design, no shadows, minimal color
 
-## Key User Experience Goals
+## Key Experience Decisions
 
-- **Zero to Feature Fast**: Get building immediately, no setup required
-- **AI-Friendly**: Memory bank and recipes make AI assistance effective
-- **Flexible Foundation**: Can become any type of application
-- **Best Practices Built-In**: TypeScript strict mode, ESLint, clean structure
+- Green (#00B85C) ONLY on CTAs, prices, active states — never backgrounds
+- Cards use borders only, zero shadows
+- Plus Jakarta Sans font throughout
+- All animations via Framer Motion — fast and purposeful
+- Bottom sheets via vaul for iOS-style swipe-to-close
 
-## What This Template Provides
+## AI Assistant: Rugendo
 
-1. **Clean App Structure**: Single page ready for expansion
-2. **Type Safety**: Full TypeScript setup with strict mode
-3. **Modern Styling**: Tailwind CSS 4 ready to use
-4. **Code Quality**: ESLint configured
-5. **Extensibility**: Recipe system for common features
-
-## Integration Points
-
-- **Database**: Use add-database recipe for Drizzle + SQLite
-- **Styling**: Tailwind CSS pre-configured
-- **AI Assistance**: Memory bank for context persistence
+Named "Rugendo" (not Rodi). Introduces: "Muraho! Nitwa Rugendo 🚌"
+Smart replies for: route queries, cheapest bus, next departure, booking help, greetings.
+Entry: green FAB button bottom-right of screen.

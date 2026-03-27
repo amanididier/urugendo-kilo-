@@ -1,120 +1,78 @@
-# System Patterns: Next.js Starter Template
+# System Architecture: Urugendo
 
-## Architecture Overview
+## Overview
+
+Next.js 16 App Router application with client-side state management for a bus ticket booking platform.
+
+## File Structure
 
 ```
 src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout + metadata
-│   ├── page.tsx            # Home page
-│   ├── globals.css         # Tailwind imports + global styles
-│   └── favicon.ico         # Site icon
-└── (expand as needed)
-    ├── components/         # React components (add when needed)
-    ├── lib/                # Utilities and helpers (add when needed)
-    └── db/                 # Database files (add via recipe)
+├── app/
+│   ├── layout.tsx          # Root layout: PhoneFrame + BottomNav + RugendoChat + CityPicker
+│   ├── page.tsx            # Home screen (/)
+│   ├── globals.css         # Tailwind CSS 4 with design tokens
+│   ├── splash/page.tsx     # Splash/Onboarding screen
+│   ├── search/page.tsx     # Search results
+│   ├── seats/[tripId]/page.tsx  # Seat selection (dynamic)
+│   ├── payment/page.tsx    # Payment flow
+│   ├── ticket/[bookingId]/page.tsx  # E-ticket confirmation (dynamic)
+│   ├── tickets/page.tsx    # My Tickets
+│   └── profile/page.tsx    # Profile
+├── components/
+│   ├── PhoneFrame.tsx      # iPhone 15 Pro frame wrapper (390×844px)
+│   ├── BottomNav.tsx       # 4-tab bottom navigation with Framer Motion
+│   ├── RugendoFAB.tsx      # Green FAB button for AI chat
+│   ├── RugendoChat.tsx     # AI chat bottom sheet
+│   └── CityPicker.tsx      # City selection bottom sheet
+├── context/
+│   └── app-context.tsx     # Global state (search, bookings, chat, language)
+└── lib/
+    ├── types.ts            # TypeScript interfaces
+    ├── data.ts             # Cities, operators, routes, mock trip generation
+    └── chat.ts             # Smart reply logic for Rugendo AI
 ```
 
-## Key Design Patterns
+## Key Patterns
 
-### 1. App Router Pattern
+### PhoneFrame
+- Wraps ALL content in a persistent iPhone 15 Pro frame (390×844px)
+- 9px bezel (#111111), Dynamic Island (118×33px black pill)
+- Desktop: centered on #0F0F0F background
+- Never hidden at any breakpoint
 
-Uses Next.js App Router with file-based routing:
-```
-src/app/
-├── page.tsx           # Route: /
-├── about/page.tsx     # Route: /about
-├── blog/
-│   ├── page.tsx       # Route: /blog
-│   └── [slug]/page.tsx # Route: /blog/:slug
-└── api/
-    └── route.ts       # API Route: /api
-```
+### State Management
+- React Context (AppProvider) for all global state
+- No external state library (Zustand, Redux, etc.)
+- State includes: search params, selected trip/seat, bookings, chat messages, language
 
-### 2. Component Organization Pattern (When Expanding)
+### Bottom Sheets
+- vaul Drawer component for CityPicker and RugendoChat
+- Custom animated sheets with spring physics (NOT using vaul, using Framer Motion directly for full control)
 
-```
-src/components/
-├── ui/                # Reusable UI components (Button, Card, etc.)
-├── layout/            # Layout components (Header, Footer)
-├── sections/          # Page sections (Hero, Features, etc.)
-└── forms/             # Form components
-```
+### Animations
+- All via Framer Motion
+- Screen transitions: slideInRight/slideOutLeft
+- Cards: fadeInUp staggered
+- Nav: layoutId pill animation
+- Buttons: scale on press
 
-### 3. Server Components by Default
+### Styling
+- Tailwind CSS 4 with @theme for design tokens
+- Custom colors: primary (#00B85C), accent (#F59E0B), text hierarchy
+- Zero box-shadow on all elements except PhoneFrame
+- Plus Jakarta Sans font via next/font/google
 
-All components are Server Components unless marked with `"use client"`:
-```tsx
-// Server Component (default) - can fetch data, access DB
-export default function Page() {
-  return <div>Server rendered</div>;
-}
+## Tech Stack
 
-// Client Component - for interactivity
-"use client";
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
-}
-```
-
-### 4. Layout Pattern
-
-Layouts wrap pages and can be nested:
-```tsx
-// src/app/layout.tsx - Root layout
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
-
-// src/app/dashboard/layout.tsx - Nested layout
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex">
-      <Sidebar />
-      <main>{children}</main>
-    </div>
-  );
-}
-```
-
-## Styling Conventions
-
-### Tailwind CSS Usage
-- Utility classes directly on elements
-- Component composition for repeated patterns
-- Responsive: `sm:`, `md:`, `lg:`, `xl:`
-
-### Common Patterns
-```tsx
-// Container
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-// Responsive grid
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-// Flexbox centering
-<div className="flex items-center justify-center">
-```
-
-## File Naming Conventions
-
-- Components: PascalCase (`Button.tsx`, `Header.tsx`)
-- Utilities: camelCase (`utils.ts`, `helpers.ts`)
-- Pages/Routes: lowercase (`page.tsx`, `layout.tsx`)
-- Directories: kebab-case (`api-routes/`) or lowercase (`components/`)
-
-## State Management
-
-For simple needs:
-- `useState` for local component state
-- `useContext` for shared state
-- Server Components for data fetching
-
-For complex needs (add when necessary):
-- Zustand for client state
-- React Query for server state
+| Tech | Version | Purpose |
+|------|---------|---------|
+| Next.js | 16.x | Framework (App Router) |
+| React | 19.x | UI |
+| TypeScript | 5.9.x | Type safety |
+| Tailwind CSS | 4.x | Styling |
+| Framer Motion | 12.x | Animations |
+| Lucide React | 0.462 | Icons |
+| vaul | 1.1.x | Bottom sheets |
+| date-fns | 4.x | Date formatting |
+| Bun | Latest | Package manager |
