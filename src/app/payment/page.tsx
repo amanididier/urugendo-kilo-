@@ -37,7 +37,7 @@ export default function PaymentPage() {
         seat: selectedSeat,
         passengerName: 'Jean-Paul K.',
         passengerPhone: phone,
-        shortCode: generateShortCode(phone),
+        shortCode: generateShortCode(),
         paymentMethod: paymentMethod === 'mtn' ? 'MTN MoMo' : paymentMethod === 'airtel' ? 'Airtel Money' : 'Bank Card',
         totalAmount: total,
         bookingFee,

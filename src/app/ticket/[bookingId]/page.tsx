@@ -20,13 +20,13 @@ function LiveTimer() {
   }, []);
   
   return (
-    <div className="flex items-center gap-1 bg-black/20 px-2 py-1 rounded-lg">
+    <div className="flex items-center gap-1 bg-black/10 px-2 py-1 rounded-lg">
       <motion.div 
         animate={{ opacity: [1, 0.3, 1] }}
         transition={{ duration: 1, repeat: Infinity }}
         className="w-2 h-2 rounded-full bg-red-500"
       />
-      <span className="text-[11px] font-mono text-white/90">{time}</span>
+      <span className="text-[11px] font-mono text-text-muted">{time}</span>
     </div>
   );
 }
@@ -36,7 +36,7 @@ function SpinningLogo() {
     <motion.div
       animate={{ rotate: 360 }}
       transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-      className="text-2xl"
+      className="text-xl"
     >
       ✦
     </motion.div>
@@ -75,7 +75,7 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
   return (
     <div className="bg-white pb-[20px]">
       {/* Success banner */}
-      <div className={`${isBoarded ? 'bg-gray-400' : ''} pt-[70px] px-5 pb-8 text-center`} style={!isBoarded ? { background: busColor } : {}}>
+      <div className={`${isBoarded ? 'bg-gray-400' : 'bg-primary'} pt-[70px] px-5 pb-6 text-center`}>
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -102,61 +102,59 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
           </motion.p>
         </div>
 
-        {/* Ticket card */}
+        {/* Ticket card - white background */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mx-5 -mt-4 rounded-2xl border border-border overflow-hidden"
-          style={{ background: isBoarded ? '#6B7280' : 'white' }}
+          className="mx-5 -mt-4 rounded-2xl border border-border overflow-hidden bg-white shadow-lg"
         >
-          {/* Color header with agency logo */}
-          <div 
-            className="px-4 py-4 flex items-center justify-between"
-            style={{ background: isBoarded ? '#374151' : busColor }}
-          >
+          {/* Header with agency logo */}
+          <div className="px-4 py-4 flex items-center justify-between border-b border-border">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-full bg-surface-secondary flex items-center justify-center text-2xl">
                 {booking.trip.operator.logo || booking.trip.operator.emoji}
               </div>
               <div>
-                <span className="text-[16px] font-extrabold text-white">{booking.trip.operator.name}</span>
-                <div className="text-[11px] text-white/70">{booking.trip.plateNumber || 'RAD 101A'}</div>
+                <span className="text-[16px] font-extrabold text-text-primary">{booking.trip.operator.name}</span>
+                <div className="text-[11px] text-text-muted">{booking.trip.plateNumber || 'RAD 101A'}</div>
               </div>
             </div>
-            {!isBoarded && <SpinningLogo />}
+            <div className="flex items-center gap-2">
+              <SpinningLogo />
+            </div>
           </div>
 
-          {/* Main code section */}
-          <div 
-            className="p-6 flex flex-col items-center justify-center"
-            style={{ background: isBoarded ? '#6B7280' : busColor }}
-          >
-            <div className="text-[14px] text-white/70 mb-2">Your Code</div>
-            <div className="text-[48px] font-extrabold text-white tracking-wider">
-              {booking.shortCode || 'AMA-10'}
+          {/* Main code section - with colored code text */}
+          <div className="p-6 flex flex-col items-center justify-center bg-surface-secondary">
+            <div className="text-[12px] text-text-muted mb-2 uppercase tracking-wide">Your Code</div>
+            <div 
+              className="text-[52px] font-extrabold tracking-wider"
+              style={{ color: isBoarded ? '#9CA3AF' : busColor }}
+            >
+              {booking.shortCode || 'XY12'}
             </div>
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-3">
               {!isBoarded && <LiveTimer />}
             </div>
           </div>
 
           {/* Route section */}
-          <div className="p-5" style={{ background: isBoarded ? '#6B7280' : 'white' }}>
+          <div className="p-5 bg-white">
             <div className="flex justify-between items-center mb-4">
               <div>
                 <div className="text-[12px] text-text-muted mb-0.5">From</div>
-                <div className="text-[20px] font-bold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>
+                <div className="text-[20px] font-bold text-text-primary">
                   {booking.trip.from.substring(0, 3).toUpperCase()}
                 </div>
                 <div className="text-[11px] text-text-muted">{booking.trip.terminalFrom}</div>
               </div>
               <div className="text-center">
-                <div className="text-[28px]" style={{ color: isBoarded ? '#E5E7EB' : '#10B981' }}>→</div>
+                <div className="text-[28px] text-primary">→</div>
               </div>
               <div className="text-right">
                 <div className="text-[12px] text-text-muted mb-0.5">To</div>
-                <div className="text-[20px] font-bold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>
+                <div className="text-[20px] font-bold text-text-primary">
                   {booking.trip.to.substring(0, 3).toUpperCase()}
                 </div>
                 <div className="text-[11px] text-text-muted">{booking.trip.terminalTo}</div>
@@ -168,31 +166,31 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="text-[12px] text-text-muted">Date</div>
-                <div className="text-[15px] font-semibold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>{booking.trip.date}</div>
+                <div className="text-[15px] font-semibold text-text-primary">{booking.trip.date}</div>
               </div>
               <div>
                 <div className="text-[12px] text-text-muted">Time</div>
-                <div className="text-[15px] font-semibold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>{booking.trip.departureTime}</div>
+                <div className="text-[15px] font-semibold text-text-primary">{booking.trip.departureTime}</div>
               </div>
               <div>
                 <div className="text-[12px] text-text-muted">Seat</div>
-                <div className="text-[15px] font-semibold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>{booking.seat}</div>
+                <div className="text-[15px] font-semibold text-text-primary">{booking.seat}</div>
               </div>
               <div>
                 <div className="text-[12px] text-text-muted">Passenger</div>
-                <div className="text-[15px] font-semibold" style={{ color: isBoarded ? '#E5E7EB' : 'inherit' }}>{booking.passengerName}</div>
+                <div className="text-[15px] font-semibold text-text-primary">{booking.passengerName}</div>
               </div>
             </div>
           </div>
 
           {/* Price footer */}
-          <div className="px-4 py-3 flex items-center justify-between" style={{ background: isBoarded ? '#374151' : 'white' }}>
-            <div className="flex items-center gap-2" style={{ color: isBoarded ? 'white' : 'inherit' }}>
+          <div className="px-4 py-3 flex items-center justify-between bg-surface-secondary border-t border-border">
+            <div className="flex items-center gap-2 text-text-primary">
               <span>{booking.trip.operator.emoji}</span>
               <span className="text-[13px] font-medium">{booking.trip.operator.name}</span>
             </div>
-            <div className="text-right" style={{ color: isBoarded ? 'white' : 'inherit' }}>
-              <span className="text-[15px] font-bold">{formatPrice(booking.totalAmount)}</span>
+            <div className="text-right">
+              <span className="text-[15px] font-bold text-text-primary">{formatPrice(booking.totalAmount)}</span>
               <span className="text-[11px] text-text-muted ml-1">· {booking.paymentMethod}</span>
             </div>
           </div>

@@ -106,7 +106,7 @@ export const sampleBookings: Booking[] = [
     seat: '3B',
     passengerName: 'Jean-Paul K.',
     passengerPhone: '+250 789 123 456',
-    shortCode: 'AMA-56',
+    shortCode: 'KL28',
     paymentMethod: 'MTN MoMo',
     totalAmount: 3700,
     bookingFee: 200,
@@ -136,7 +136,7 @@ export const sampleBookings: Booking[] = [
     seat: '5A',
     passengerName: 'Jean-Paul K.',
     passengerPhone: '+250 789 123 456',
-    shortCode: 'AMA-56',
+    shortCode: 'MP47',
     paymentMethod: 'Airtel Money',
     totalAmount: 2700,
     bookingFee: 200,
@@ -155,8 +155,12 @@ export function generateBookingId(): string {
   return `BK-${date}-${rand}`;
 }
 
-export function generateShortCode(phone: string): string {
-  const digits = phone.replace(/\D/g, '');
-  const lastTwo = digits.slice(-2);
-  return `AMA-${lastTwo}`;
+export function generateShortCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const nums = '0123456789';
+  const char1 = chars[Math.floor(Math.random() * chars.length)];
+  const char2 = chars[Math.floor(Math.random() * chars.length)];
+  const num1 = nums[Math.floor(Math.random() * nums.length)];
+  const num2 = nums[Math.floor(Math.random() * nums.length)];
+  return `${char1}${char2}${num1}${num2}`;
 }
