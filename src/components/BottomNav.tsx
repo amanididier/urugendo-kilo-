@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Search, Ticket, User } from 'lucide-react';
+import { Home, Search, Ticket, User, Bus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const tabs = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/tickets', icon: Ticket, label: 'Tickets' },
+  { path: '/agency', icon: Bus, label: 'Agency' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 

@@ -14,6 +14,31 @@ export interface Operator {
   logo?: string;
 }
 
+export interface Bus {
+  id: string;
+  plateNumber: string;
+  operatorId: string;
+  totalSeats: number;
+  amenities: string[];
+}
+
+export interface AgencySchedule {
+  id: string;
+  busId: string;
+  operatorId: string;
+  routeFrom: string;
+  routeTo: string;
+  departureTime: string;
+  arrivalTime: string;
+  date: string;
+  price: number;
+  availableSeats: number;
+  totalSeats: number;
+  status: 'scheduled' | 'boarding' | 'departed' | 'arrived' | 'cancelled';
+  bookedCount: number;
+  paperCount: number;
+}
+
 export interface Route {
   id: string;
   from: string;
