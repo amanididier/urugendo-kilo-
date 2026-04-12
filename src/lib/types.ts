@@ -11,6 +11,7 @@ export interface Operator {
   name: string;
   emoji: string;
   gradient: string;
+  logo?: string;
 }
 
 export interface Route {
@@ -36,6 +37,8 @@ export interface Trip {
   date: string;
   terminalFrom: string;
   terminalTo: string;
+  busColor: string;
+  plateNumber?: string;
 }
 
 export interface Seat {
@@ -51,10 +54,11 @@ export interface Booking {
   seat: string;
   passengerName: string;
   passengerPhone: string;
+  shortCode: string;
   paymentMethod: string;
   totalAmount: number;
   bookingFee: number;
-  status: 'upcoming' | 'past' | 'cancelled';
+  status: 'upcoming' | 'boarded' | 'expired' | 'past' | 'cancelled';
   bookingDate: string;
 }
 

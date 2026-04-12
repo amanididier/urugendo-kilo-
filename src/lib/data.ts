@@ -11,11 +11,16 @@ export const cities: City[] = [
   { code: 'CYG', name: 'Cyangugu', terminal: 'Rusizi Terminal', flag: '🌊', image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&q=80' },
 ];
 
+export const BUS_COLORS = [
+  '#FF6B1A', '#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', 
+  '#06B6D4', '#EC4899', '#84CC16', '#F97316'
+];
+
 export const operators: Operator[] = [
-  { id: 'volcano', name: 'Volcano Express', emoji: '🌋', gradient: 'linear-gradient(135deg, #FF5C1A, #FF3D00)' },
-  { id: 'ritco', name: 'RITCO', emoji: '🚌', gradient: 'linear-gradient(135deg, #00B85C, #007A3D)' },
-  { id: 'trinity', name: 'Trinity Express', emoji: '🚐', gradient: 'linear-gradient(135deg, #3B82F6, #1D4ED8)' },
-  { id: 'virunga', name: 'Virunga Express', emoji: '🏔️', gradient: 'linear-gradient(135deg, #A855F7, #7C3AED)' },
+  { id: 'volcano', name: 'Volcano Express', emoji: '🌋', gradient: 'linear-gradient(135deg, #FF5C1A, #FF3D00)', logo: '🌋' },
+  { id: 'ritco', name: 'RITCO', emoji: '🚌', gradient: 'linear-gradient(135deg, #00B85C, #007A3D)', logo: '🚌' },
+  { id: 'trinity', name: 'Trinity Express', emoji: '🚐', gradient: 'linear-gradient(135deg, #3B82F6, #1D4ED8)', logo: '🚐' },
+  { id: 'virunga', name: 'Virunga Express', emoji: '🏔️', gradient: 'linear-gradient(135deg, #A855F7, #7C3AED)', logo: '🏔️' },
 ];
 
 export const popularRoutes: Route[] = [
@@ -63,6 +68,8 @@ export function generateTrips(from: string, to: string, date: string): Trip[] {
     date,
     terminalFrom: fromCity.terminal,
     terminalTo: toCity.terminal,
+    busColor: BUS_COLORS[i % BUS_COLORS.length],
+    plateNumber: `RAD ${100 + i}${String.fromCharCode(65 + i)}`,
   }));
 }
 
@@ -93,10 +100,13 @@ export const sampleBookings: Booking[] = [
       date: '2026-03-28',
       terminalFrom: 'Nyabugogo Terminal',
       terminalTo: 'Musanze Central Terminal',
+      busColor: '#FF6B1A',
+      plateNumber: 'RAD 101A',
     },
     seat: '3B',
     passengerName: 'Jean-Paul K.',
     passengerPhone: '+250 789 123 456',
+    shortCode: 'AMA-56',
     paymentMethod: 'MTN MoMo',
     totalAmount: 3700,
     bookingFee: 200,
@@ -120,10 +130,13 @@ export const sampleBookings: Booking[] = [
       date: '2026-03-20',
       terminalFrom: 'Nyabugogo Terminal',
       terminalTo: 'Huye Bus Terminal',
+      busColor: '#3B82F6',
+      plateNumber: 'RAD 102B',
     },
     seat: '5A',
     passengerName: 'Jean-Paul K.',
     passengerPhone: '+250 789 123 456',
+    shortCode: 'AMA-56',
     paymentMethod: 'Airtel Money',
     totalAmount: 2700,
     bookingFee: 200,
@@ -140,4 +153,10 @@ export function generateBookingId(): string {
   const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
   const rand = Math.floor(Math.random() * 900) + 100;
   return `BK-${date}-${rand}`;
+}
+
+export function generateShortCode(phone: string): string {
+  const digits = phone.replace(/\D/g, '');
+  const lastTwo = digits.slice(-2);
+  return `AMA-${lastTwo}`;
 }

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Check } from 'lucide-react';
 import { useApp } from '@/context/app-context';
-import { formatPrice } from '@/lib/data';
+import { formatPrice, generateShortCode } from '@/lib/data';
 import { t } from '@/lib/translations';
 
 export default function PaymentPage() {
@@ -30,12 +30,14 @@ export default function PaymentPage() {
 
   const handlePay = () => {
     setProcessing(true);
+    const phone = '+250 789 123 456';
     setTimeout(() => {
       const bookingId = addBooking({
         trip: selectedTrip,
         seat: selectedSeat,
         passengerName: 'Jean-Paul K.',
-        passengerPhone: '+250 789 123 456',
+        passengerPhone: phone,
+        shortCode: generateShortCode(phone),
         paymentMethod: paymentMethod === 'mtn' ? 'MTN MoMo' : paymentMethod === 'airtel' ? 'Airtel Money' : 'Bank Card',
         totalAmount: total,
         bookingFee,

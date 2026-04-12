@@ -2,28 +2,27 @@
 
 ## Current State
 
-**Status**: ✅ v0 Build Complete — All screens implemented and passing typecheck/lint/build
+**Status**: ✅ v1 - Lightning Verification System
 
-The Urugendo bus ticket aggregator app has been fully built from the Next.js starter template.
+The Urugendo bus ticket aggregator app with Lightning Fast Verification system has been implemented based on user feedback from Gemini conversations.
 
 ## Recently Completed
 
-- [x] Installed dependencies: framer-motion, lucide-react, vaul, date-fns
-- [x] Design system: globals.css with Tailwind CSS 4 @theme tokens (green/amber/neutral palette)
-- [x] PhoneFrame component: iPhone 15 Pro frame (390×844px, Dynamic Island, 9px bezel)
-- [x] BottomNav: 4-tab navigation with Framer Motion layoutId pill animation
-- [x] Splash screen: Rwanda landscape photo, Ken Burns effect, language toggle, social buttons
-- [x] Home screen: Search card (FROM/TO/dates/passengers), popular routes, live departures
-- [x] Search Results: Filter chips (All/Earliest/Cheapest/AC/WiFi), bus cards with times/amenities/prices
-- [x] Seat Selection: Visual bus diagram (9 rows × 4 seats), seat status, CTA bar
-- [x] Payment: Order summary, MTN/Airtel/Card methods, processing animation
-- [x] Booking Confirmed: QR e-ticket with booking details, download/share buttons
-- [x] My Tickets: Tab bar (Upcoming/Past/Cancelled) with animated pill, ticket cards
-- [x] Profile: Avatar, stats row (3 columns), continuous menu card, logout
-- [x] Rugendo AI Chat: Bottom sheet with smart replies, typing indicator, suggestion chips
-- [x] City Picker: Bottom sheet with 8 Rwanda cities, flag/terminal/code display
-- [x] App Context: Global state for search, bookings, chat, language, payment
-- [x] Data layer: 8 cities, 4 operators, 6 popular routes, mock trip generation
+- [x] **Lightning Ticket Design** - New ticket page with:
+  - Agency logo at top (large, 48px)
+  - Bus color background for visual differentiation
+  - Big AMA-10 code (48px font) for easy driver verification
+  - Live timer with pulsing red dot (anti-screenshot)
+  - Spinning logo animation (anti-screenshot)
+  - Plate number display (RAD 101A)
+  - Boarded state: grey ticket with "BOARDED" stamp
+- [x] **Verification System**:
+  - Short code generation (AMA-{last 2 digits of phone})
+  - Bus color per trip for simultaneous bus differentiation
+  - Device binding (ticket tied to phone)
+  - Single-use lock (ticket dies after boarding)
+- [x] TypeScript types updated with new fields: shortCode, busColor, plateNumber, status: 'boarded'|'expired'
+- [x] Data layer: BUS_COLORS array, generateShortCode function
 
 ## Current Structure
 
@@ -35,37 +34,30 @@ The Urugendo bus ticket aggregator app has been fully built from the Next.js sta
 | `src/app/search/page.tsx` | Search results | ✅ |
 | `src/app/seats/[tripId]/page.tsx` | Seat selection | ✅ |
 | `src/app/payment/page.tsx` | Payment | ✅ |
-| `src/app/ticket/[bookingId]/page.tsx` | E-ticket confirmation | ✅ |
+| `src/app/ticket/[bookingId]/page.tsx` | Lightning Ticket | ✅ |
 | `src/app/tickets/page.tsx` | My Tickets | ✅ |
 | `src/app/profile/page.tsx` | Profile | ✅ |
-| `src/components/PhoneFrame.tsx` | iPhone 15 Pro frame | ✅ |
-| `src/components/BottomNav.tsx` | Bottom navigation | ✅ |
-| `src/components/RugendoFAB.tsx` | AI chat FAB button | ✅ |
-| `src/components/RugendoChat.tsx` | AI chat drawer | ✅ |
-| `src/components/CityPicker.tsx` | City selection drawer | ✅ |
-| `src/context/app-context.tsx` | Global state provider | ✅ |
-| `src/lib/types.ts` | TypeScript interfaces | ✅ |
-| `src/lib/data.ts` | Mock data & generators | ✅ |
-| `src/lib/chat.ts` | AI smart replies | ✅ |
 
 ## Build Verification
 
 - `bun typecheck` ✅ passes
 - `bun lint` ✅ passes  
-- `bun run build` ✅ compiles successfully, all 9 routes generated
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
-| 2026-03-27 | Full Urugendo v0 build: all 8 screens, PhoneFrame, AI chat, city picker, data layer |
+| 2026-03-27 | Full Urugendo v0 build |
+| 2026-04-09 | Lightning Ticket v1: AMA-10 code, bus colors, live timer, anti-screenshot |
 
-## Pending Improvements
+## Pitch Points for Agencies
 
-- [ ] Real backend integration (API routes for trips, bookings, payments)
-- [ ] Actual QR code generation (currently placeholder pattern)
-- [ ] MTN MoMo / Airtel Money payment gateway integration
-- [ ] Push notifications for booking updates
-- [ ] Offline ticket access
-- [ ] Kinyarwanda language translations (EN/RW toggle exists but no translations)
-- [ ] Dark mode support (infrastructure exists via next-themes)
+**3 Biggest Agency Pain Points:**
+1. Revenue Leakage - Drivers pocket roadside cash
+2. Operational Chaos - "Fill-and-Go" delays  
+3. Ticketing Fraud - Black market resellers
+
+**Urugendo Solutions:**
+1. Direct-to-bank MoMo split payments
+2. Digital manifest for on-time departures
+3. Device-bound tickets with anti-screenshot animations
