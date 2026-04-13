@@ -36,6 +36,7 @@ const sampleDriverTrips = [
 export default function DriverDashboard() {
   const [trips] = useState(sampleDriverTrips);
   const [selectedTrip, setSelectedTrip] = useState(trips[0]);
+  const [verifiedPassengers, setVerifiedPassengers] = useState<string[]>([]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -48,14 +49,18 @@ export default function DriverDashboard() {
   };
 
   const markBoarded = (passengerCode: string) => {
-    alert(`Marked ${passengerCode} as boarded!`);
+    if (!verifiedPassengers.includes(passengerCode)) {
+      setVerifiedPassengers([...verifiedPassengers, passengerCode]);
+    }
   };
+
+  const currentTrip = trips.find(t => t.status === 'departed') || trips[0];
+  const pendingPassengers = currentTrip?.passengers.filter(p => !verifiedPassengers.includes(p.code)) || [];
+  const verifiedList = currentTrip?.passengers.filter(p => verifiedPassengers.includes(p.code)) || [];
 
   const generateManifest = () => {
     alert('Generating manifest PDF...');
   };
-
-  const currentTrip = trips.find(t => t.status === 'departed') || trips[0];
 
   return (
     <div className="bg-surface-secondary pb-[88px]">
@@ -78,12 +83,12 @@ export default function DriverDashboard() {
             <div className="text-[10px] text-white/70">Trips Today</div>
           </div>
           <div className="flex-1 bg-white/10 rounded-xl p-3">
-            <div className="text-[20px] font-bold text-white">48</div>
-            <div className="text-[10px] text-white/70">Passengers</div>
+            <div className="text-[20px] font-bold text-white">{pendingPassengers.length}</div>
+            <div className="text-[10px] text-white/70">Pending</div>
           </div>
           <div className="flex-1 bg-white/10 rounded-xl p-3">
-            <div className="text-[20px] font-bold text-white">+30</div>
-            <div className="text-[10px] text-white/70">Points</div>
+            <div className="text-[20px] font-bold text-white">{verifiedList.length}</div>
+            <div className="text-[10px] text-white/70">Verified</div>
           </div>
         </div>
       </div>
@@ -148,12 +153,14 @@ export default function DriverDashboard() {
         </div>
       </div>
 
-      {/* Passengers List */}
+      {/* Pending Passengers */}
       <div className="px-4 mt-4">
-        <h3 className="text-[15px] font-bold text-text-primary mb-3">Passengers ({currentTrip?.passengers.length})</h3>
+        <h3 className="text-[15px] font-bold text-text-primary mb-3">Pending ({pendingPassengers.length})</h3>
         
         <div className="space-y-2">
-          {currentTrip?.passengers.map((passenger, i) => (
+          {pendingPassengers.length === 0 ? (
+            <div className="text-center py-4 text-text-muted text-[13px]">All passengers verified</div>
+          ) : pendingPassengers.map((passenger, i) => (
             <motion.div
               key={passenger.code}
               initial={{ opacity: 0, y: 10 }}
@@ -168,23 +175,47 @@ export default function DriverDashboard() {
                 <div className="text-[13px] font-semibold text-text-primary">{passenger.name}</div>
                 <div className="text-[11px] text-text-muted font-mono">{passenger.code}</div>
               </div>
-              {passenger.status === 'boarded' ? (
-                <div className="flex items-center gap-1 text-green-600">
-                  <CheckCircle size={16} />
-                  <span className="text-[11px] font-bold">Boarded</span>
-                </div>
-              ) : (
-                <button
-                  onClick={() => markBoarded(passenger.code)}
-                  className="bg-primary text-white text-[11px] font-bold px-3 py-1.5 rounded-full"
-                >
-                  Board
-                </button>
-              )}
+              <button
+                onClick={() => markBoarded(passenger.code)}
+                className="bg-primary text-white text-[11px] font-bold px-3 py-1.5 rounded-full"
+              >
+                Verify
+              </button>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Verified Passengers */}
+      {verifiedList.length > 0 && (
+        <div className="px-4 mt-4">
+          <h3 className="text-[15px] font-bold text-green-600 mb-3">Verified ({verifiedList.length})</h3>
+          
+          <div className="space-y-2">
+            {verifiedList.map((passenger, i) => (
+              <motion.div
+                key={passenger.code}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-green-50 rounded-xl border border-green-200 p-3 flex items-center gap-3"
+              >
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-[12px] font-bold text-green-700">
+                  {passenger.seat}
+                </div>
+                <div className="flex-1">
+                  <div className="text-[13px] font-semibold text-green-800">{passenger.name}</div>
+                  <div className="text-[11px] text-green-600 font-mono">{passenger.code}</div>
+                </div>
+                <div className="flex items-center gap-1 text-green-600">
+                  <CheckCircle size={16} />
+                  <span className="text-[11px] font-bold">Verified</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Other Trips */}
       <div className="px-4 mt-4">

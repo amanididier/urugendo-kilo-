@@ -2,27 +2,31 @@
 
 ## Current State
 
-**Status**: ✅ v1 - Lightning Verification System
+**Status**: ✅ v2 - Role-Based Dashboards with Verification
 
-The Urugendo bus ticket aggregator app with Lightning Fast Verification system has been implemented based on user feedback from Gemini conversations.
+The Urugendo app now has separate dashboards for passengers, agency managers, and drivers with enhanced verification features.
 
 ## Recently Completed
 
-- [x] **Lightning Ticket Design** - New ticket page with:
-  - Agency logo at top (large, 48px)
-  - Bus color background for visual differentiation
-  - Big AMA-10 code (48px font) for easy driver verification
-  - Live timer with pulsing red dot (anti-screenshot)
-  - Spinning logo animation (anti-screenshot)
-  - Plate number display (RAD 101A)
-  - Boarded state: grey ticket with "BOARDED" stamp
-- [x] **Verification System**:
-  - Short code generation (AMA-{last 2 digits of phone})
-  - Bus color per trip for simultaneous bus differentiation
-  - Device binding (ticket tied to phone)
-  - Single-use lock (ticket dies after boarding)
-- [x] TypeScript types updated with new fields: shortCode, busColor, plateNumber, status: 'boarded'|'expired'
-- [x] Data layer: BUS_COLORS array, generateShortCode function
+- [x] **Role-Based Login** - `/login` page with:
+  - Phone number login for passengers
+  - Email login for agencies/drivers
+  - Quick demo buttons for each role
+- [x] **Passenger App** - `/home` with:
+  - City picker, search, popular routes
+  - Live departures, AI chat
+  - Login popup after 10 seconds
+- [x] **Agency Dashboard** - `/agency` with:
+  - Today/Schedule/Verify/Reports tabs
+  - Revenue tracking (Urugendo vs Paper tickets)
+  - Quick seat verification by seat number
+  - Mark passengers as verified/unverified
+- [x] **Driver Dashboard** - `/driver` with:
+  - Current trip with live tracking
+  - Passenger list with pending/verified sections
+  - Verify button moves passengers to verified list
+  - Stats show pending vs verified counts
+- [x] **LoginPopup** - `/components/LoginPopup.tsx` - Bottom sheet with role options
 
 ## Current Structure
 

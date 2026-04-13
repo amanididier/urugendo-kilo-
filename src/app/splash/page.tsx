@@ -102,39 +102,16 @@ export default function SplashScreen() {
             <span>📍</span> {t('tagline', language)}
           </motion.p>
 
-          {/* Get Started - Go to Login */}
+          {/* Get Started - Go directly to Home */}
           <motion.button
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            onClick={() => router.push('/login')}
-            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-4 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
+            onClick={() => router.push('/home')}
+            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-5 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
           >
             {t('getStarted', language)}
           </motion.button>
-
-          {/* Login as Driver/Agency */}
-          <motion.button
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            onClick={() => router.push('/login')}
-            className="w-full h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white text-[14px] font-semibold mb-5 active:scale-[0.97] transition-transform"
-          >
-            🔐 Login as Driver or Agency
-          </motion.button>
-
-          {/* Divider */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.3 }}
-            className="text-white/50 text-[13px] text-center mb-4 flex items-center gap-3"
-          >
-            <div className="flex-1 h-px bg-white/20" />
-            <span>{t('orContinue', language)}</span>
-            <div className="flex-1 h-px bg-white/20" />
-          </motion.div>
 
           {/* Social buttons */}
           <motion.div
@@ -145,7 +122,7 @@ export default function SplashScreen() {
           >
             {[
               { label: 'G' },
-              { label: '\uF8FF' },
+              { label: '' },
               { label: 'f' },
             ].map((btn) => (
               <button
@@ -157,16 +134,23 @@ export default function SplashScreen() {
             ))}
           </motion.div>
 
-          {/* Footer */}
-          <motion.p
+          {/* Footer - Login as Driver/Agency at bottom */}
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3, duration: 0.3 }}
-            className="text-center text-[13px]"
+            className="text-center"
           >
-            <span className="text-white/50">{t('noAccount', language)}</span>
-            <span className="text-primary font-bold">{t('createOne', language)}</span>
-          </motion.p>
+            <p className="text-white/50 text-[13px] mb-3">
+              Are you a driver or agency?
+            </p>
+            <button
+              onClick={() => router.push('/login')}
+              className="text-primary font-bold text-[14px] underline"
+            >
+              Login as Driver or Agency
+            </button>
+          </motion.div>
         </div>
       </div>
     </div>

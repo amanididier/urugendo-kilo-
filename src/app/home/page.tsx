@@ -9,12 +9,21 @@ import { t } from '@/lib/translations';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { LoginPopup } from '@/components/LoginPopup';
 
 export default function HomePage() {
   const router = useRouter();
   const { search, setSearch, setCityPickerOpen, setCityPickerField, setSelectedTrip, setChatOpen, language } = useApp();
   const [currentLocation, setCurrentLocation] = useState<string | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoginPopup(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const openCityPicker = (field: 'from' | 'to') => {
     setCityPickerField(field);

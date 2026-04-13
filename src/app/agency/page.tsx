@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Clock, Users, Ticket, ArrowRight, MapPin, Bus, TrendingUp, DollarSign, Calendar, ChevronRight } from 'lucide-react';
+import { Plus, Clock, Users, Ticket, ArrowRight, MapPin, Bus, TrendingUp, DollarSign, Calendar, ChevronRight, Search, CheckCircle, XCircle } from 'lucide-react';
 
 const sampleSchedules = [
   {
@@ -61,13 +61,44 @@ const stats = {
   activeRoutes: 3,
 };
 
+const samplePassengers = [
+  { name: 'Jean-Paul K.', seat: '3B', code: 'XK7P2Q', type: 'digital' as const, verified: false },
+  { name: 'Marie U.', seat: '5A', code: 'MN8P4L', type: 'digital' as const, verified: true },
+  { name: 'Pierre R.', seat: '7C', code: 'RT2W9K', type: 'digital' as const, verified: false },
+  { name: 'Alice M.', seat: '2A', code: 'AB1C2D', type: 'paper' as const, verified: false },
+  { name: 'Bob K.', seat: '4B', code: 'EF3G4H', type: 'paper' as const, verified: false },
+];
+
 export default function AgencyDashboard() {
   const [schedules] = useState(sampleSchedules);
-  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'reports'>('today');
+  const [activeTab, setActiveTab] = useState<'today' | 'schedule' | 'reports' | 'verify'>('today');
+  const [searchSeat, setSearchSeat] = useState('');
+  const [passengers, setPassengers] = useState(samplePassengers);
+  const [verifyResult, setVerifyResult] = useState<{found: boolean; passenger?: typeof samplePassengers[0]} | null>(null);
 
   const totalUrugendo = schedules.reduce((sum, s) => sum + s.bookedCount, 0);
   const totalPaper = schedules.reduce((sum, s) => sum + s.paperCount, 0);
   const totalRevenue = schedules.reduce((sum, s) => sum + (s.bookedCount + s.paperCount) * s.price, 0);
+
+  const handleVerify = () => {
+    if (!searchSeat.trim()) {
+      setVerifyResult({ found: false });
+      return;
+    }
+    const seat = searchSeat.toUpperCase().trim();
+    const found = passengers.find(p => p.seat.toUpperCase() === seat);
+    if (found) {
+      setVerifyResult({ found: true, passenger: found });
+    } else {
+      setVerifyResult({ found: false });
+    }
+  };
+
+  const toggleVerify = (seatCode: string) => {
+    setPassengers(passengers.map(p => 
+      p.code === seatCode ? { ...p, verified: !p.verified } : p
+    ));
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -118,15 +149,15 @@ export default function AgencyDashboard() {
       {/* Tabs */}
       <div className="px-4 -mt-3">
         <div className="bg-white rounded-xl p-1 border border-border flex">
-          {(['today', 'schedule', 'reports'] as const).map((tab) => (
+          {(['today', 'schedule', 'verify', 'reports'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-2 rounded-lg text-[12px] font-semibold transition-colors ${
+              className={`flex-1 py-2 rounded-lg text-[11px] font-semibold transition-colors ${
                 activeTab === tab ? 'bg-primary text-white' : 'text-text-muted'
               }`}
             >
-              {tab === 'today' ? 'Today' : tab === 'schedule' ? 'Schedule' : 'Reports'}
+              {tab === 'today' ? 'Today' : tab === 'schedule' ? 'Schedule' : tab === 'verify' ? 'Verify' : 'Reports'}
             </button>
           ))}
         </div>
@@ -242,6 +273,116 @@ export default function AgencyDashboard() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Verify Tab */}
+      {activeTab === 'verify' && (
+        <div className="px-4 mt-4">
+          {/* Quick Verify by Seat */}
+          <div className="bg-white rounded-xl border border-border p-4 mb-4">
+            <h3 className="text-[14px] font-bold text-text-primary mb-3">Quick Verify by Seat</h3>
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+                <input
+                  type="text"
+                  value={searchSeat}
+                  onChange={(e) => setSearchSeat(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
+                  placeholder="Enter seat (e.g., 3B)"
+                  className="w-full pl-10 pr-4 py-3 border border-border rounded-xl text-[14px]"
+                />
+              </div>
+              <button
+                onClick={handleVerify}
+                className="bg-primary text-white px-4 rounded-xl font-bold"
+              >
+                Verify
+              </button>
+            </div>
+
+            {/* Result */}
+            {verifyResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`mt-4 p-4 rounded-xl ${
+                  verifyResult.found && verifyResult.passenger?.verified
+                    ? 'bg-green-50 border border-green-200'
+                    : verifyResult.found
+                    ? 'bg-amber-50 border border-amber-200'
+                    : 'bg-red-50 border border-red-200'
+                }`}
+              >
+                {verifyResult.found ? (
+                  <div className="flex items-center gap-3">
+                    {verifyResult.passenger?.verified ? (
+                      <CheckCircle size={24} className="text-green-600" />
+                    ) : (
+                      <XCircle size={24} className="text-amber-600" />
+                    )}
+                    <div className="flex-1">
+                      <div className="text-[14px] font-bold text-text-primary">{verifyResult.passenger?.name}</div>
+                      <div className="text-[12px] text-text-muted">
+                        Seat {verifyResult.passenger?.seat} • {verifyResult.passenger?.type === 'digital' ? 'Urugendo' : 'Paper'} Ticket
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggleVerify(verifyResult.passenger!.code)}
+                      className={`text-[11px] font-bold px-3 py-1.5 rounded-full ${
+                        verifyResult.passenger?.verified
+                          ? 'bg-red-100 text-red-700'
+                          : 'bg-green-100 text-green-700'
+                      }`}
+                    >
+                      {verifyResult.passenger?.verified ? 'Unverify' : 'Mark Verified'}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center text-red-600 text-[13px]">No passenger found with that seat</div>
+                )}
+              </motion.div>
+            )}
+          </div>
+
+          {/* All Passengers */}
+          <div className="bg-white rounded-xl border border-border p-4">
+            <h3 className="text-[14px] font-bold text-text-primary mb-3">All Passengers Today</h3>
+            <div className="space-y-2">
+              {passengers.map((p, i) => (
+                <div
+                  key={p.code}
+                  className={`flex items-center gap-3 p-2 rounded-lg ${
+                    p.verified ? 'bg-green-50' : 'bg-surface-secondary'
+                  }`}
+                >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold ${
+                    p.type === 'digital' ? 'bg-primary/10 text-primary' : 'bg-amber-100 text-amber-600'
+                  }`}>
+                    {p.seat}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-[13px] font-semibold text-text-primary">{p.name}</div>
+                    <div className="text-[11px] text-text-muted">{p.type === 'digital' ? 'Urugendo' : 'Paper'}</div>
+                  </div>
+                  {p.verified ? (
+                    <div className="flex items-center gap-1 text-green-600 text-[11px] font-bold">
+                      <CheckCircle size={14} />
+                      Verified
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => toggleVerify(p.code)}
+                      className="text-[11px] font-bold text-primary"
+                    >
+                      Verify
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
