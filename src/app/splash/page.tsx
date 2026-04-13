@@ -102,15 +102,26 @@ export default function SplashScreen() {
             <span>📍</span> {t('tagline', language)}
           </motion.p>
 
-          {/* Get Started */}
+          {/* Get Started - Go to Login */}
           <motion.button
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            onClick={() => router.push('/home')}
-            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-5 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
+            onClick={() => router.push('/login')}
+            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-4 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
           >
             {t('getStarted', language)}
+          </motion.button>
+
+          {/* Login as Driver/Agency */}
+          <motion.button
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            onClick={() => router.push('/login')}
+            className="w-full h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white text-[14px] font-semibold mb-5 active:scale-[0.97] transition-transform"
+          >
+            🔐 Login as Driver or Agency
           </motion.button>
 
           {/* Divider */}

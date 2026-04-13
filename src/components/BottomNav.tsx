@@ -1,25 +1,49 @@
 "use client";
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Search, Ticket, User, Bus } from 'lucide-react';
+import { Home, Search, Ticket, User, Bus, Settings, Users, MapPin, Clock, FileText, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const tabs = [
+type UserRole = 'passenger' | 'agent' | 'driver';
+
+const passengerTabs = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/tickets', icon: Ticket, label: 'Tickets' },
-  { path: '/agency', icon: Bus, label: 'Agency' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 
-export function BottomNav() {
+const agentTabs = [
+  { path: '/agency', icon: Bus, label: 'Dashboard' },
+  { path: '/agency/schedule', icon: Calendar, label: 'Schedule' },
+  { path: '/agency/reports', icon: FileText, label: 'Reports' },
+  { path: '/profile', icon: Settings, label: 'Settings' },
+];
+
+const driverTabs = [
+  { path: '/driver', icon: Bus, label: 'Trips' },
+  { path: '/driver/passengers', icon: Users, label: 'Passengers' },
+  { path: '/driver/map', icon: MapPin, label: 'Map' },
+  { path: '/profile', icon: User, label: 'Profile' },
+];
+
+interface BottomNavProps {
+  role?: UserRole;
+}
+
+export function BottomNav({ role = 'passenger' }: BottomNavProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === '/splash' || pathname === '/' || pathname === '/splash/') return null;
+  const tabs = role === 'agent' ? agentTabs : role === 'driver' ? driverTabs : passengerTabs;
+
+  if (pathname === '/splash' || pathname === '/' || pathname === '/splash/' || pathname === '/login') return null;
 
   const isActive = (path: string) => {
     if (path === '/home') return pathname === '/home' || pathname === '/';
+    if (path === '/agency') return pathname.startsWith('/agency');
+    if (path === '/driver') return pathname.startsWith('/driver');
+    if (path === '/profile') return pathname.startsWith('/profile');
     return pathname.startsWith(path);
   };
 

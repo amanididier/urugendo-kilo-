@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Phone, Mail, Lock, Eye, EyeOff, ArrowRight, Shield } from 'lucide-react';
+import { Phone, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Bus, User, Settings } from 'lucide-react';
+import { useApp } from '@/context/app-context';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { userRole, setUserRole } = useApp();
   const [loginType, setLoginType] = useState<'phone' | 'email'>('phone');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -26,12 +28,20 @@ export default function LoginPage() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      // For demo, go to home or agency based on role
-      if (loginType === 'email' && email.includes('agency')) {
-        router.push('/agency');
-      } else if (loginType === 'email') {
+      // Set role based on login type and navigate
+      if (loginType === 'phone') {
+        setUserRole('passenger');
         router.push('/home');
+      } else if (email.includes('agency') || email.includes('driver')) {
+        if (email.includes('driver')) {
+          setUserRole('driver');
+          router.push('/driver');
+        } else {
+          setUserRole('agent');
+          router.push('/agency');
+        }
       } else {
+        setUserRole('passenger');
         router.push('/home');
       }
     }, 1500);

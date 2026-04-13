@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useCallback, ReactNode } from 'rea
 import { Language, Trip, Booking, ChatMessage, PaymentMethod } from '@/lib/types';
 import { sampleBookings, generateBookingId } from '@/lib/data';
 
+type UserRole = 'passenger' | 'agent' | 'driver';
+
 interface SearchState {
   from: string;
   to: string;
@@ -14,6 +16,8 @@ interface SearchState {
 interface AppContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  userRole: UserRole;
+  setUserRole: (role: UserRole) => void;
   search: SearchState;
   setSearch: (search: Partial<SearchState>) => void;
   selectedTrip: Trip | null;
@@ -38,6 +42,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('EN');
+  const [userRole, setUserRole] = useState<UserRole>('passenger');
   const [search, setSearchState] = useState<SearchState>({
     from: '',
     to: '',
@@ -79,6 +84,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       value={{
         language,
         setLanguage,
+        userRole,
+        setUserRole,
         search,
         setSearch,
         selectedTrip,

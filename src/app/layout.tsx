@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/app-context";
-import { PhoneFrame } from "@/components/PhoneFrame";
-import { BottomNav } from "@/components/BottomNav";
-import { RugendoChat } from "@/components/RugendoChat";
-import { CityPicker } from "@/components/CityPicker";
-import { RugendoFAB } from "@/components/RugendoFAB";
+import { ClientLayout } from "@/components/ClientLayout";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -28,14 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plusJakarta.variable} antialiased`}>
         <AppProvider>
-          <PhoneFrame
-            nav={<BottomNav />}
-            fab={<RugendoFAB />}
-            chat={<RugendoChat />}
-            picker={<CityPicker />}
-          >
-            {children}
-          </PhoneFrame>
+          <ClientLayout>{children}</ClientLayout>
         </AppProvider>
       </body>
     </html>
