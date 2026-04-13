@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useApp } from '@/context/app-context';
 import { formatPrice } from '@/lib/data';
 import { useState, useEffect } from 'react';
+import { jsPDF } from 'jspdf';
 
 function LiveTimer() {
   const [time, setTime] = useState('');
@@ -70,12 +71,95 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
   }
 
   const isBoarded = booking.status === 'boarded';
+  const isCompleted = booking.status === 'past';
   const busColor = booking.trip.busColor || '#FF6B1A';
+
+  const getTicketState = () => {
+    if (isCompleted) return 'completed';
+    if (isBoarded) return 'boarded';
+    return 'active';
+  };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    const state = getTicketState();
+    
+    doc.setFillColor(0, 184, 92);
+    doc.rect(0, 0, 210, 40, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Urugendo.', 20, 25);
+    
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(booking.id, 180, 25, { align: 'right' });
+    
+    doc.setTextColor(9, 9, 11);
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`${booking.trip.from.toUpperCase()} → ${booking.trip.to.toUpperCase()}`, 20, 55);
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(63, 63, 70);
+    doc.text(`Date: ${booking.trip.date}`, 20, 65);
+    doc.text(`Time: ${booking.trip.departureTime}`, 20, 72);
+    doc.text(`Seat: ${booking.seat}`, 20, 79);
+    doc.text(`Passenger: ${booking.passengerName}`, 20, 86);
+    
+    doc.setFontSize(28);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(0, 184, 92);
+    doc.text(booking.shortCode || 'XXXXXX', 20, 105);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(63, 63, 70);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Operator: ${booking.trip.operator.name}`, 20, 115);
+    doc.text(`Plate: ${booking.trip.plateNumber || 'N/A'}`, 20, 122);
+    
+    doc.setFillColor(0, 184, 92);
+    doc.rect(0, 130, 210, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text(booking.trip.operator.name, 20, 145);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(booking.totalAmount.toLocaleString() + ' RWF • Paid', 180, 145, { align: 'right' });
+    
+    if (state === 'boarded') {
+      doc.setFillColor(245, 158, 11);
+      doc.rect(0, 0, 210, 20, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.text('VERIFIED ✓ Boarded', 105, 13, { align: 'center' });
+    } else if (state === 'completed') {
+      doc.setFillColor(161, 161, 170);
+      doc.rect(0, 0, 210, 20, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.text('TRIP COMPLETED', 105, 13, { align: 'center' });
+    }
+    
+    doc.save(`Urugendo-${booking.shortCode}.pdf`);
+  };
+
+  const getStateColor = () => {
+    if (isCompleted) return '#9CA3AF';
+    if (isBoarded) return '#F59E0B';
+    return busColor;
+  };
 
   return (
     <div className="bg-white pb-[20px]">
       {/* Success banner */}
-      <div className={`${isBoarded ? 'bg-gray-400' : 'bg-primary'} pt-[70px] px-5 pb-6 text-center`}>
+      <div 
+        className="pt-[70px] px-5 pb-6 text-center"
+        style={{ background: isCompleted ? '#9CA3AF' : isBoarded ? '#F59E0B' : '#00B85C' }}
+      >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -221,7 +305,10 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
           transition={{ delay: 0.6 }}
           className="px-5 mt-4 space-y-2.5"
         >
-          <button className="w-full h-12 rounded-full bg-primary text-white font-bold text-[15px] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform">
+          <button 
+            onClick={downloadPDF}
+            className="w-full h-12 rounded-full bg-primary text-white font-bold text-[15px] flex items-center justify-center gap-2 active:scale-[0.97] transition-transform"
+          >
             📥 Download Ticket
           </button>
           <button className="w-full h-12 rounded-full bg-white border border-border text-text-primary font-bold text-[15px] flex items-center justify-center gap-2 active:bg-gray-50 transition-colors">

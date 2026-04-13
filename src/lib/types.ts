@@ -45,6 +45,7 @@ export interface Route {
   to: string;
   price: number;
   duration: string;
+  status: 'active' | 'coming_soon';
 }
 
 export interface Trip {

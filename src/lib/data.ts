@@ -24,12 +24,12 @@ export const operators: Operator[] = [
 ];
 
 export const popularRoutes: Route[] = [
-  { id: '1', from: 'Kigali', to: 'Musanze', price: 3500, duration: '2h 30m' },
-  { id: '2', from: 'Kigali', to: 'Huye', price: 2500, duration: '2h 15m' },
-  { id: '3', from: 'Kigali', to: 'Rubavu', price: 4000, duration: '3h 00m' },
-  { id: '4', from: 'Kigali', to: 'Nyanza', price: 1800, duration: '1h 45m' },
-  { id: '5', from: 'Kigali', to: 'Rwamagana', price: 1200, duration: '1h 00m' },
-  { id: '6', from: 'Kigali', to: 'Byumba', price: 2000, duration: '1h 30m' },
+  { id: '1', from: 'Kigali', to: 'Musanze', price: 3500, duration: '2h 30m', status: 'active' },
+  { id: '2', from: 'Kigali', to: 'Huye', price: 2500, duration: '2h 15m', status: 'coming_soon' },
+  { id: '3', from: 'Kigali', to: 'Rubavu', price: 4000, duration: '3h 00m', status: 'coming_soon' },
+  { id: '4', from: 'Kigali', to: 'Nyanza', price: 1800, duration: '1h 45m', status: 'coming_soon' },
+  { id: '5', from: 'Kigali', to: 'Rwamagana', price: 1200, duration: '1h 00m', status: 'coming_soon' },
+  { id: '6', from: 'Kigali', to: 'Byumba', price: 2000, duration: '1h 30m', status: 'coming_soon' },
 ];
 
 function generateSeats(): Record<string, 'available' | 'taken'> {
@@ -158,9 +158,11 @@ export function generateBookingId(): string {
 export function generateShortCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
   const nums = '0123456789';
-  const char1 = chars[Math.floor(Math.random() * chars.length)];
-  const char2 = chars[Math.floor(Math.random() * chars.length)];
-  const num1 = nums[Math.floor(Math.random() * nums.length)];
-  const num2 = nums[Math.floor(Math.random() * nums.length)];
-  return `${char1}${char2}${num1}${num2}`;
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += Math.random() > 0.5 
+      ? chars[Math.floor(Math.random() * chars.length)]
+      : nums[Math.floor(Math.random() * nums.length)];
+  }
+  return code;
 }
