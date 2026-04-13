@@ -24,6 +24,17 @@ export default function LoginPage() {
     }
   };
 
+  const handleQuickLogin = (role: 'passenger' | 'agent' | 'driver') => {
+    setUserRole(role);
+    if (role === 'driver') {
+      router.push('/driver');
+    } else if (role === 'agent') {
+      router.push('/agency');
+    } else {
+      router.push('/home');
+    }
+  };
+
   const handleLogin = () => {
     setLoading(true);
     setTimeout(() => {
@@ -209,27 +220,30 @@ export default function LoginPage() {
         )}
       </div>
 
-      {/* Quick Demo Links */}
+      {/* Quick Role Selection */}
       <div className="px-5 mt-8">
-        <p className="text-[12px] text-text-muted text-center mb-4">Quick Demo Access:</p>
-        <div className="space-y-2">
+        <p className="text-[12px] text-text-muted text-center mb-4">Or select your role to continue:</p>
+        <div className="grid grid-cols-3 gap-3">
           <button
-            onClick={() => router.push('/home')}
-            className="w-full py-3 rounded-xl border border-border text-[13px] font-medium text-text-secondary hover:bg-surface-secondary flex items-center justify-center gap-2"
+            onClick={() => handleQuickLogin('passenger')}
+            className="py-4 rounded-xl border-2 border-border hover:border-primary bg-white flex flex-col items-center gap-2"
           >
-            👤 Passenger App (Book Tickets)
+            <span className="text-2xl">👤</span>
+            <span className="text-[11px] font-bold text-text-primary">Passenger</span>
           </button>
           <button
-            onClick={() => router.push('/agency')}
-            className="w-full py-3 rounded-xl border border-primary bg-primary-light text-[13px] font-medium text-primary hover:bg-primary/20 flex items-center justify-center gap-2"
+            onClick={() => handleQuickLogin('agent')}
+            className="py-4 rounded-xl border-2 border-primary bg-primary-light flex flex-col items-center gap-2"
           >
-            🏢 Agency Dashboard (Manage Trips & Revenue)
+            <span className="text-2xl">🏢</span>
+            <span className="text-[11px] font-bold text-primary">Agency</span>
           </button>
           <button
-            onClick={() => router.push('/driver')}
-            className="w-full py-3 rounded-xl border border-blue-200 bg-blue-50 text-[13px] font-medium text-blue-700 hover:bg-blue-100 flex items-center justify-center gap-2"
+            onClick={() => handleQuickLogin('driver')}
+            className="py-4 rounded-xl border-2 border-blue-300 bg-blue-50 flex flex-col items-center gap-2"
           >
-            🚌 Driver Dashboard (Verify Passengers)
+            <span className="text-2xl">🚌</span>
+            <span className="text-[11px] font-bold text-blue-700">Driver</span>
           </button>
         </div>
       </div>
