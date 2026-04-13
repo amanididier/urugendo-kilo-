@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Phone, Mail, Lock, Eye, EyeOff, ArrowRight, Bus, Shield } from 'lucide-react';
+import { Phone, Mail, Lock, Eye, EyeOff, ArrowRight, Shield } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -202,19 +202,24 @@ export default function LoginPage() {
       {/* Quick Demo Links */}
       <div className="px-5 mt-8">
         <p className="text-[12px] text-text-muted text-center mb-4">Quick Demo Access:</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-2">
           <button
             onClick={() => router.push('/home')}
-            className="py-2.5 rounded-xl border border-border text-[12px] font-medium text-text-secondary hover:bg-surface-secondary"
+            className="w-full py-3 rounded-xl border border-border text-[13px] font-medium text-text-secondary hover:bg-surface-secondary flex items-center justify-center gap-2"
           >
-            👤 Passenger App
+            👤 Passenger App (Book Tickets)
           </button>
           <button
             onClick={() => router.push('/agency')}
-            className="py-2.5 rounded-xl border border-border text-[12px] font-medium text-primary hover:bg-primary-light flex items-center justify-center gap-1"
+            className="w-full py-3 rounded-xl border border-primary bg-primary-light text-[13px] font-medium text-primary hover:bg-primary/20 flex items-center justify-center gap-2"
           >
-            <Bus size={14} />
-            Agency Dashboard
+            🏢 Agency Dashboard (Manage Trips & Revenue)
+          </button>
+          <button
+            onClick={() => router.push('/driver')}
+            className="w-full py-3 rounded-xl border border-blue-200 bg-blue-50 text-[13px] font-medium text-blue-700 hover:bg-blue-100 flex items-center justify-center gap-2"
+          >
+            🚌 Driver Dashboard (Verify Passengers)
           </button>
         </div>
       </div>
