@@ -2,16 +2,19 @@
 
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Bell, ArrowRightLeft, ChevronRight, MapPin, Clock, Zap } from 'lucide-react';
+import { Bell, ArrowRightLeft, ChevronRight, MapPin, Clock, Zap, Navigation } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { popularRoutes, getTripsForRoute, formatPrice } from '@/lib/data';
 import { t } from '@/lib/translations';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export default function HomePage() {
   const router = useRouter();
   const { search, setSearch, setCityPickerOpen, setCityPickerField, setSelectedTrip, setChatOpen, language } = useApp();
+  const [currentLocation, setCurrentLocation] = useState<string | null>(null);
+  const [locationLoading, setLocationLoading] = useState(false);
 
   const openCityPicker = (field: 'from' | 'to') => {
     setCityPickerField(field);
@@ -41,6 +44,36 @@ export default function HomePage() {
       router.push(`/seats/${trips[0].id}`);
     }
   };
+
+  const useMyLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation not supported');
+      return;
+    }
+    setLocationLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCurrentLocation('Nyabugogo, Kigali');
+        setSearch({ from: 'Kigali', to: search.to });
+        setLocationLoading(false);
+      },
+      (error) => {
+        alert('Could not get location. Please enable GPS.');
+        setLocationLoading(false);
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCurrentLocation('Kigali Area');
+        },
+        () => {}
+      );
+    }
+  }, []);
 
   const liveRoutes = popularRoutes.slice(0, 3);
 
@@ -118,6 +151,28 @@ export default function HomePage() {
           <span className={`text-[15px] ${search.to ? 'text-text-primary font-semibold' : 'text-text-muted'}`}>
             {search.to || t('toPlaceholder', language)}
           </span>
+        </button>
+
+        {/* Use My Location Button */}
+        <div className="border-t border-dashed border-border" />
+        <button
+          onClick={useMyLocation}
+          disabled={locationLoading}
+          className="w-full flex items-center justify-center gap-2 py-2.5 text-primary text-[13px] font-medium active:bg-primary-light transition-colors"
+        >
+          {locationLoading ? (
+            <span>Getting location...</span>
+          ) : currentLocation ? (
+            <>
+              <Navigation size={14} />
+              <span>Book from my location ({currentLocation})</span>
+            </>
+          ) : (
+            <>
+              <Navigation size={14} />
+              <span>Use my current location</span>
+            </>
+          )}
         </button>
 
         <div className="border-t border-border" />
