@@ -202,19 +202,34 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.05 }}
-              onClick={() => handleRouteClick(route)}
-              className="flex-shrink-0 bg-white rounded-2xl border border-border p-4 min-w-[155px] active:scale-[0.97] transition-transform text-left"
+              onClick={() => route.status === 'coming_soon' ? router.push('/waitlist') : handleRouteClick(route)}
+              disabled={route.status === 'coming_soon'}
+              className={`flex-shrink-0 rounded-2xl border p-4 min-w-[155px] active:scale-[0.97] transition-transform text-left ${
+                route.status === 'coming_soon' 
+                  ? 'bg-gray-50 border-gray-200 opacity-60' 
+                  : 'bg-white border-border'
+              }`}
             >
               <div className="flex items-center gap-2 mb-2.5">
-                <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <MapPin size={14} className="text-primary" />
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                  route.status === 'coming_soon' ? 'bg-gray-200' : 'bg-primary/10'
+                }`}>
+                  <MapPin size={14} className={route.status === 'coming_soon' ? 'text-gray-400' : 'text-primary'} />
                 </div>
-                <span className="text-[13px] font-bold text-text-primary">
+                <span className={`text-[13px] font-bold ${
+                  route.status === 'coming_soon' ? 'text-gray-400' : 'text-text-primary'
+                }`}>
                   {route.from} → {route.to}
                 </span>
               </div>
-              <div className="text-[18px] font-extrabold text-primary">{formatPrice(route.price)}</div>
-              <div className="text-[12px] text-text-muted mt-1">{route.duration}</div>
+              {route.status === 'coming_soon' ? (
+                <div className="text-[12px] text-gray-400 font-medium">Coming Soon</div>
+              ) : (
+                <>
+                  <div className="text-[18px] font-extrabold text-primary">{formatPrice(route.price)}</div>
+                  <div className="text-[12px] text-text-muted mt-1">{route.duration}</div>
+                </>
+              )}
             </motion.button>
           ))}
         </div>

@@ -95,6 +95,101 @@ export interface ChatMessage {
   timestamp: number;
 }
 
+export interface User {
+  id: string;
+  phone: string;
+  name: string;
+  role: 'passenger' | 'agent' | 'driver' | 'admin';
+  points: number;
+  rating: number;
+  totalTrips: number;
+  createdAt: string;
+}
+
+export interface DriverTrip {
+  id: string;
+  tripId: string;
+  driverId: string;
+  departureTime: string;
+  arrivalTime: string;
+  status: 'assigned' | 'boarding' | 'departed' | 'arrived';
+  currentLocation?: {
+    lat: number;
+    lng: number;
+    timestamp: number;
+  };
+  passengers: {
+    name: string;
+    seat: string;
+    code: string;
+    status: 'booked' | 'boarded' | 'no_show';
+  }[];
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type: 'booking' | 'departure' | 'arrival' | 'promo' | 'system';
+  read: boolean;
+  createdAt: string;
+}
+
+export interface PointTransaction {
+  id: string;
+  userId: string;
+  amount: number;
+  reason: string;
+  createdAt: string;
+}
+
+export interface TrendingRoute {
+  route: string;
+  bookings: number;
+  trend: 'up' | 'down' | 'stable';
+}
+
+export interface MultiLegJourney {
+  id: string;
+  legs: {
+    from: string;
+    to: string;
+    departureTime: string;
+    arrivalTime: string;
+    operator: string;
+    price: number;
+  }[];
+  totalPrice: number;
+  totalDuration: string;
+}
+
+export interface GroupBooking {
+  id: string;
+  leaderId: string;
+  passengers: {
+    name: string;
+    phone: string;
+    seat?: string;
+  }[];
+  tripId: string;
+  totalAmount: number;
+  status: 'pending' | 'confirmed' | 'cancelled';
+}
+
+export interface Location {
+  lat: number;
+  lng: number;
+  timestamp: number;
+}
+
+export interface BusTracking {
+  tripId: string;
+  locations: Location[];
+  estimatedArrival: string;
+  status: 'on_time' | 'delayed' | 'early';
+}
+
 export type Language = 'EN' | 'RW';
 export type PaymentMethod = 'mtn' | 'airtel' | 'card';
 export type SearchFilter = 'all' | 'earliest' | 'cheapest' | 'ac' | 'wifi';
