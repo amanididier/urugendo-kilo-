@@ -26,12 +26,13 @@ export default function LoginPage() {
 
   const handleQuickLogin = (role: 'passenger' | 'agent' | 'driver') => {
     setUserRole(role);
+    // Use window.location for immediate navigation
     if (role === 'driver') {
-      router.push('/driver');
+      window.location.href = '/driver';
     } else if (role === 'agent') {
-      router.push('/agency');
+      window.location.href = '/agency';
     } else {
-      router.push('/home');
+      window.location.href = '/home';
     }
   };
 
