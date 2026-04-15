@@ -3,6 +3,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bus, MapPin, Users, Clock, CheckCircle, Navigation, FileText, Phone, Activity } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+// Dynamic import for map (Leaflet needs window)
+const MapTracking = dynamic(() => import('@/components/MapTracking').then(m => ({ default: m.MapTracking })), {
+  ssr: false,
+  loading: () => <div className="h-[300px] bg-gray-100 rounded-xl animate-pulse" />,
+});
 
 const sampleDriverTrips = [
   {
@@ -122,16 +129,25 @@ export default function DriverDashboard() {
               </div>
             </div>
 
-            {/* Live Location */}
-            <button className="w-full bg-blue-50 rounded-xl p-3 flex items-center gap-3 border border-blue-200">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <Navigation size={18} className="text-blue-600" />
+            {/* Live Map */}
+            <div className="mt-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[12px] font-bold text-primary">Live Map</span>
+                <motion.div
+                  animate={{ opacity: [1, 0.2, 1] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                  className="flex items-center gap-1"
+                >
+                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <span className="text-[10px] text-green-600 font-bold">LIVE</span>
+                </motion.div>
               </div>
-              <div className="flex-1 text-left">
-                <div className="text-[13px] font-bold text-blue-800">Live Tracking Active</div>
-                <div className="text-[11px] text-blue-600">Sharing location with passengers</div>
-              </div>
-            </button>
+              <MapTracking
+                busLocation={[-1.9157, 29.7444]}
+                route="Kigali-Musanze"
+                showRoute={true}
+              />
+            </div>
           </motion.div>
         </div>
       )}
