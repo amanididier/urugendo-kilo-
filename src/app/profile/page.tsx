@@ -154,7 +154,7 @@ export default function ProfilePage() {
               <div className="space-y-3">
                 <button
                   onClick={() => {
-                    setUserRole('passenger');
+                    localStorage.setItem('urugendo_role', 'passenger'); setUserRole('passenger');
                     setShowRoleSwitcher(false);
                     router.push('/home');
                   }}
@@ -172,7 +172,7 @@ export default function ProfilePage() {
 
                 <button
                   onClick={() => {
-                    setUserRole('agent');
+                    localStorage.setItem('urugendo_role', 'agent'); setUserRole('agent');
                     setShowRoleSwitcher(false);
                     router.push('/agency');
                   }}
@@ -190,7 +190,7 @@ export default function ProfilePage() {
 
                 <button
                   onClick={() => {
-                    setUserRole('driver');
+                    localStorage.setItem('urugendo_role', 'driver'); setUserRole('driver');
                     setShowRoleSwitcher(false);
                     router.push('/driver');
                   }}

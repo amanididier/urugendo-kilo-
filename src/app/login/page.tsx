@@ -25,6 +25,10 @@ export default function LoginPage() {
   };
 
   const handleQuickLogin = (role: 'passenger' | 'agent' | 'driver') => {
+    // Save role to localStorage so it persists across pages
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('urugendo_role', role);
+    }
     setUserRole(role);
     // Navigate based on role
     if (role === 'driver') {

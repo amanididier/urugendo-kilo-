@@ -124,7 +124,7 @@ export default function SplashScreen() {
             </button>
             <button
               onClick={() => {
-                setUserRole('driver');
+                localStorage.setItem('urugendo_role', 'driver'); setUserRole('driver');
                 router.push('/driver');
               }}
               className="py-2 rounded-lg bg-amber-500/20 text-amber-400 text-[12px] font-medium border border-amber-500/30"
@@ -133,7 +133,7 @@ export default function SplashScreen() {
             </button>
             <button
               onClick={() => {
-                setUserRole('agent');
+                localStorage.setItem('urugendo_role', 'agent'); setUserRole('agent');
                 router.push('/agency');
               }}
               className="py-2 rounded-lg bg-blue-500/20 text-blue-400 text-[12px] font-medium border border-blue-500/30"

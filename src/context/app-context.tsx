@@ -42,7 +42,27 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('EN');
-  const [userRole, setUserRole] = useState<UserRole>('passenger');
+  
+  // Try to get role from localStorage or default to passenger
+  const getInitialRole = (): UserRole => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('urugendo_role');
+      if (saved === 'driver' || saved === 'agent' || saved === 'passenger') {
+        return saved;
+      }
+    }
+    return 'passenger';
+  };
+  
+  const [userRole, setUserRole] = useState<UserRole>(getInitialRole);
+  
+  // Persist role to localStorage when changed
+  const handleSetRole = useCallback((role: UserRole) => {
+    setUserRole(role);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('urugendo_role', role);
+    }
+  }, []);
   const [search, setSearchState] = useState<SearchState>({
     from: '',
     to: '',
@@ -85,7 +105,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         language,
         setLanguage,
         userRole,
-        setUserRole,
+        setUserRole: handleSetRole,
         search,
         setSearch,
         selectedTrip,
