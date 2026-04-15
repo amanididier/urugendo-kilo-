@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { Language, Trip, Booking, ChatMessage, PaymentMethod } from '@/lib/types';
 import { sampleBookings, generateBookingId } from '@/lib/data';
 
@@ -42,19 +42,17 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('EN');
+  const [userRole, setUserRole] = useState<UserRole>('passenger');
+  const [isHydrated, setIsHydrated] = useState(false);
   
-  // Try to get role from localStorage or default to passenger
-  const getInitialRole = (): UserRole => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('urugendo_role');
-      if (saved === 'driver' || saved === 'agent' || saved === 'passenger') {
-        return saved;
-      }
+  // Load role from localStorage after hydration
+  useEffect(() => {
+    setIsHydrated(true);
+    const saved = localStorage.getItem('urugendo_role');
+    if (saved === 'driver' || saved === 'agent' || saved === 'passenger') {
+      setUserRole(saved);
     }
-    return 'passenger';
-  };
-  
-  const [userRole, setUserRole] = useState<UserRole>(getInitialRole);
+  }, []);
   
   // Persist role to localStorage when changed
   const handleSetRole = useCallback((role: UserRole) => {
