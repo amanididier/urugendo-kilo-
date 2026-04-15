@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 export default function SplashScreen() {
   const router = useRouter();
-  const { language, setLanguage } = useApp();
+  const { language, setLanguage, setUserRole } = useApp();
 
   useEffect(() => {
     // Don't auto-navigate - let user choose
@@ -103,16 +103,44 @@ export default function SplashScreen() {
             <span>📍</span> {t('tagline', language)}
           </motion.p>
 
-          {/* Get Started - Go directly to Home */}
+          {/* Get Started - Go to Login */}
           <motion.button
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            onClick={() => router.push('/home')}
-            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-5 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
+            onClick={() => router.push('/login')}
+            className="w-full h-14 rounded-full bg-primary text-white text-[16px] font-bold mb-3 active:scale-[0.97] transition-transform shadow-[0_6px_20px_rgba(0,184,92,0.4)]"
           >
             {t('getStarted', language)}
           </motion.button>
+
+          {/* Quick Role Selection */}
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            <button
+              onClick={() => router.push('/home')}
+              className="py-2 rounded-lg bg-white/10 text-white text-[12px] font-medium border border-white/20"
+            >
+              Passenger
+            </button>
+            <button
+              onClick={() => {
+                setUserRole('driver');
+                router.push('/driver');
+              }}
+              className="py-2 rounded-lg bg-amber-500/20 text-amber-400 text-[12px] font-medium border border-amber-500/30"
+            >
+              Driver
+            </button>
+            <button
+              onClick={() => {
+                setUserRole('agent');
+                router.push('/agency');
+              }}
+              className="py-2 rounded-lg bg-blue-500/20 text-blue-400 text-[12px] font-medium border border-blue-500/30"
+            >
+              Agency
+            </button>
+          </div>
 
           {/* Social buttons */}
           <motion.div
