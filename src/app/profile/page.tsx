@@ -1,14 +1,17 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Users, CreditCard, Bell, Globe, HelpCircle, LogOut, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, Users, CreditCard, Bell, Globe, HelpCircle, LogOut, X, Bus, User, ArrowRightLeft } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { t } from '@/lib/translations';
 
 export default function ProfilePage() {
-  const { bookings, language, setLanguage, setChatOpen } = useApp();
+  const router = useRouter();
+  const { bookings, language, setLanguage, setChatOpen, userRole, setUserRole } = useApp();
   const [pitchMode, setPitchMode] = useState(false);
+  const [showRoleSwitcher, setShowRoleSwitcher] = useState(false);
 
   const upcomingCount = bookings.filter(b => b.status === 'upcoming').length;
   const totalTrips = bookings.filter(b => b.status === 'past').length + upcomingCount;
@@ -104,18 +107,109 @@ export default function ProfilePage() {
         })}
       </motion.div>
 
-      {/* Logout */}
+      {/* Switch Account */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.25 }}
         className="mx-5 mt-4"
       >
-        <button className="w-full flex items-center justify-center gap-2 py-3.5 text-badge-red-text font-semibold text-[15px] active:bg-red-50 rounded-xl transition-colors">
-          <LogOut size={20} />
-          {t('logout', language)}
+        <button 
+          onClick={() => setShowRoleSwitcher(true)}
+          className="w-full flex items-center justify-center gap-2 py-3.5 text-primary font-semibold text-[15px] active:bg-primary-light rounded-xl transition-colors"
+        >
+          <ArrowRightLeft size={20} />
+          Switch Account
         </button>
       </motion.div>
+
+      {/* Role Switcher Modal */}
+      <AnimatePresence>
+        {showRoleSwitcher && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center"
+            onClick={() => setShowRoleSwitcher(false)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              className="bg-white rounded-t-3xl w-full p-5 pb-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-[18px] font-bold text-text-primary">Switch Account</h2>
+                <button onClick={() => setShowRoleSwitcher(false)} className="p-2">
+                  <X size={20} className="text-text-muted" />
+                </button>
+              </div>
+
+              <p className="text-[13px] text-text-muted mb-4">
+                Choose a role to switch to:
+              </p>
+
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    setUserRole('passenger');
+                    setShowRoleSwitcher(false);
+                    router.push('/home');
+                  }}
+                  className="w-full p-4 rounded-xl border border-border flex items-center gap-3 hover:bg-surface-secondary"
+                >
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User size={20} className="text-primary" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="text-[14px] font-bold text-text-primary">Passenger</div>
+                    <div className="text-[11px] text-text-muted">Book tickets, view my trips</div>
+                  </div>
+                  <ChevronRight size={18} className="text-text-muted" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    setUserRole('agent');
+                    setShowRoleSwitcher(false);
+                    router.push('/agency');
+                  }}
+                  className="w-full p-4 rounded-xl border border-border flex items-center gap-3 hover:bg-surface-secondary"
+                >
+                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                    <Bus size={20} className="text-blue-600" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="text-[14px] font-bold text-text-primary">Agency</div>
+                    <div className="text-[11px] text-text-muted">Manage trips, verify tickets, reports</div>
+                  </div>
+                  <ChevronRight size={18} className="text-text-muted" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    setUserRole('driver');
+                    setShowRoleSwitcher(false);
+                    router.push('/driver');
+                  }}
+                  className="w-full p-4 rounded-xl border border-border flex items-center gap-3 hover:bg-surface-secondary"
+                >
+                  <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center">
+                    <Bus size={20} className="text-amber-600" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="text-[14px] font-bold text-text-primary">Driver</div>
+                    <div className="text-[11px] text-text-muted">Verify passengers, view manifest</div>
+                  </div>
+                  <ChevronRight size={18} className="text-text-muted" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Pitch Mode Toggle */}
       <div className="mx-5 mt-6 mb-8 text-center">

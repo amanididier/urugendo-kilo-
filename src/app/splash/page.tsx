@@ -12,9 +12,10 @@ export default function SplashScreen() {
   const { language, setLanguage } = useApp();
 
   useEffect(() => {
-    const timer = setTimeout(() => router.push('/home'), 3500);
-    return () => clearTimeout(timer);
-  }, [router]);
+    // Don't auto-navigate - let user choose
+    // const timer = setTimeout(() => router.push('/home'), 3500);
+    // return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative w-full h-full overflow-hidden">
