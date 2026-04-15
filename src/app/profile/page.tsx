@@ -1,12 +1,14 @@
 "use client";
 
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Users, CreditCard, Bell, Globe, HelpCircle, LogOut } from 'lucide-react';
+import { ChevronRight, Users, CreditCard, Bell, Globe, HelpCircle, LogOut, X } from 'lucide-react';
 import { useApp } from '@/context/app-context';
 import { t } from '@/lib/translations';
 
 export default function ProfilePage() {
   const { bookings, language, setLanguage, setChatOpen } = useApp();
+  const [pitchMode, setPitchMode] = useState(false);
 
   const upcomingCount = bookings.filter(b => b.status === 'upcoming').length;
   const totalTrips = bookings.filter(b => b.status === 'past').length + upcomingCount;
@@ -114,6 +116,43 @@ export default function ProfilePage() {
           {t('logout', language)}
         </button>
       </motion.div>
+
+      {/* Pitch Mode Toggle */}
+      <div className="mx-5 mt-6 mb-8 text-center">
+        <button
+          onClick={() => setPitchMode(!pitchMode)}
+          className="text-[11px] text-text-muted underline"
+        >
+          Presentation Mode
+        </button>
+        
+        {/* Pitch Mode Overlay */}
+        {pitchMode && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="fixed inset-0 z-50"
+          >
+            <div className="absolute top-0 left-0 right-0 bg-black/80 z-50 flex items-center justify-center py-3">
+              <span className="bg-primary text-white text-[11px] font-bold px-3 py-1 rounded-full">
+                AGENCY DEMO — Urugendo v6.0
+              </span>
+              <button
+                onClick={() => setPitchMode(false)}
+                className="absolute right-4"
+              >
+                <X size={20} className="text-white" />
+              </button>
+            </div>
+            
+            <div className="absolute bottom-4 left-4 right-4 bg-white rounded-xl p-3 text-center">
+              <span className="text-[11px] text-text-muted">
+                V0 Pilot: 4 features · Full app: 12 features · Start date: your 2-week trial
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 }

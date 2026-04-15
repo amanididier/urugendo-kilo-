@@ -130,34 +130,45 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
       const state = getTicketState();
       const pageWidth = doc.internal.pageSize.getWidth();
       
+      // Header with agency branding
       doc.setFillColor(0, 184, 92);
-      doc.rect(0, 0, pageWidth, 45, 'F');
+      doc.rect(0, 0, pageWidth, 50, 'F');
       
+      // Agency logo (emoji placeholder)
+      doc.setFontSize(28);
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(24);
+      doc.text(booking.trip.operator.emoji || '🚌', 20, 25);
+      
+      doc.setFontSize(20);
       doc.setFont('helvetica', 'bold');
-      doc.text('Urugendo.', 20, 28);
+      doc.text('Urugendo.', 40, 22);
       
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
-      doc.text(booking.id, pageWidth - 20, 28, { align: 'right' });
+      doc.text(booking.id, pageWidth - 20, 22, { align: 'right' });
       
+      // Passenger name at top
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Passenger: ${booking.passengerName}`, 40, 35);
+      doc.text(`Phone: ${booking.passengerPhone}`, pageWidth - 20, 35, { align: 'right' });
+      
+      // Trip details - big and clear
       doc.setTextColor(9, 9, 11);
-      doc.setFontSize(22);
+      doc.setFontSize(28);
       doc.setFont('helvetica', 'bold');
-      doc.text(`${booking.trip.from.toUpperCase()} → ${booking.trip.to.toUpperCase()}`, 20, 60);
+      doc.text(`${booking.trip.from.toUpperCase()} → ${booking.trip.to.toUpperCase()}`, 20, 70);
       
-      doc.setFontSize(11);
+      // Trip info
+      doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(63, 63, 70);
-      doc.text(`Date: ${booking.trip.date}`, 20, 70);
-      doc.text(`Departure: ${booking.trip.departureTime}`, 20, 78);
-      doc.text(`Arrival: ${booking.trip.arrivalTime}`, 20, 86);
-      doc.text(`Seat: ${booking.seat}`, 20, 94);
-      doc.text(`Passenger: ${booking.passengerName}`, 20, 102);
-      doc.text(`Phone: ${booking.passengerPhone}`, 20, 110);
+      doc.text(`${booking.trip.date} • ${booking.trip.departureTime} → ${booking.trip.arrivalTime}`, 20, 82);
+      doc.text(`${booking.trip.duration} • ${booking.trip.operator.name}`, 20, 92);
+      doc.text(`Seat: ${booking.seat} • Plate: ${booking.trip.plateNumber || 'N/A'}`, 20, 102);
       
-      doc.setFontSize(32);
+      // Booking code - big
+      doc.setFontSize(40);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 184, 92);
       doc.text(booking.shortCode || 'XXXXXX', 20, 135);
@@ -165,10 +176,12 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
       doc.setFontSize(10);
       doc.setTextColor(63, 63, 70);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Operator: ${booking.trip.operator.name}`, 20, 148);
-      doc.text(`Plate: ${booking.trip.plateNumber || 'N/A'}`, 20, 156);
-      doc.text(`Terminal: ${booking.trip.terminalFrom}`, 20, 164);
+      doc.text('Booking Code', 20, 148);
       
+      // Terminal info
+      doc.text(`Terminal: ${booking.trip.terminalFrom}`, 20, 165);
+      
+      // Footer with operator
       doc.setFillColor(0, 184, 92);
       doc.rect(0, 180, pageWidth, 45, 'F');
       doc.setTextColor(255, 255, 255);
@@ -177,7 +190,7 @@ export default function TicketConfirmPage({ params }: { params: Promise<{ bookin
       doc.text(booking.trip.operator.name, 20, 198);
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
-      doc.text(booking.totalAmount.toLocaleString() + ' RWF • Paid via ' + booking.paymentMethod, pageWidth - 20, 198, { align: 'right' });
+      doc.text(booking.totalAmount.toLocaleString() + ' RWF • ' + booking.paymentMethod, pageWidth - 20, 198, { align: 'right' });
       
       if (state === 'boarded') {
         doc.setFillColor(245, 158, 11);

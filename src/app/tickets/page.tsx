@@ -2,27 +2,34 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/app-context';
 import { t } from '@/lib/translations';
+import { ChevronRight, MapPin, Clock, Bus } from 'lucide-react';
 
-const tabs = ['Upcoming', 'Past', 'Cancelled'] as const;
+const tabs = ['Upcoming', 'Past', 'Live'] as const;
 type Tab = typeof tabs[number];
 
-const tabKeys: Record<Tab, 'upcoming' | 'past' | 'cancelled'> = {
+const tabKeys: Record<Tab, 'upcoming' | 'past' | 'live'> = {
   Upcoming: 'upcoming',
   Past: 'past',
-  Cancelled: 'cancelled',
+  Live: 'live',
 };
 
 export default function TicketsPage() {
+  const router = useRouter();
   const { bookings, language } = useApp();
   const [activeTab, setActiveTab] = useState<Tab>('Upcoming');
 
   const filtered = bookings.filter(b => {
     if (activeTab === 'Upcoming') return b.status === 'upcoming';
-    if (activeTab === 'Past') return b.status === 'past';
-    return b.status === 'cancelled';
+    if (activeTab === 'Past') return b.status === 'past' || b.status === 'boarded' || b.status === 'expired';
+    return b.status === 'upcoming';
   });
+
+  const handleTicketClick = (bookingId: string) => {
+    router.push(`/ticket/${bookingId}`);
+  };
 
   return (
     <div className="bg-white pb-[100px]">
@@ -75,34 +82,39 @@ export default function TicketsPage() {
                   ? t('noUpcoming', language)
                   : activeTab === 'Past'
                   ? t('noPast', language)
-                  : t('noCancelled', language)}
+                  : 'No live trips right now'}
               </p>
             </motion.div>
           ) : (
             filtered.map((booking, i) => (
-              <motion.div
+              <motion.button
                 key={booking.id}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ delay: i * 0.06 }}
-                className="bg-white rounded-xl border border-border p-4 hover:border-primary/30 transition-colors"
+                onClick={() => handleTicketClick(booking.id)}
+                className="w-full text-left bg-white rounded-xl border border-border p-4 hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="text-[18px] font-bold text-text-primary">
                     {booking.trip.from} → {booking.trip.to}
                   </div>
-                  <span className="text-[13px] font-semibold text-primary bg-primary-light px-2 py-0.5 rounded-full">
-                    {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                  </span>
+                  <ChevronRight size={20} className="text-text-muted" />
                 </div>
                 <div className="flex items-center gap-3 text-[13px] text-text-muted flex-wrap">
-                  <span>📅 {booking.trip.date}</span>
-                  <span>🕐 {booking.trip.departureTime}</span>
-                  <span>{booking.trip.operator.emoji} {booking.trip.operator.name}</span>
+                  <span className="flex items-center gap-1">
+                    <MapPin size={12} /> {booking.trip.date}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock size={12} /> {booking.trip.departureTime}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Bus size={12} /> {booking.trip.operator.name}
+                  </span>
                   <span>💺 {booking.seat}</span>
                 </div>
-              </motion.div>
+              </motion.button>
             ))
           )}
         </AnimatePresence>

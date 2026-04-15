@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Search, Ticket, User, Bus, Settings, Users, MapPin, Clock, FileText, Calendar } from 'lucide-react';
+import { Home, Search, Ticket, User, Bus, Settings, Users, MapPin, Clock, FileText, Calendar, Radio } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 type UserRole = 'passenger' | 'agent' | 'driver';
@@ -10,6 +10,7 @@ const passengerTabs = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/tickets', icon: Ticket, label: 'Tickets' },
+  { path: '/live', icon: Radio, label: 'Live' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 

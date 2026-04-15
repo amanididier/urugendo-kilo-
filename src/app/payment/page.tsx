@@ -25,7 +25,7 @@ export default function PaymentPage() {
     );
   }
 
-  const bookingFee = 200;
+  const bookingFee = Math.round(selectedTrip.price * 0.025);
   const total = selectedTrip.price + bookingFee;
 
   const handlePay = () => {
